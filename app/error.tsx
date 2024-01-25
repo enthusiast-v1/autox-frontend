@@ -1,30 +1,29 @@
 'use client';
 
-import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { User } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const ErrorPage = () => {
+  const router = useRouter();
+
+  const handleBackToHome = () => {
+    router.refresh();
+    router.push('/');
+  };
   return (
-    <div className="flex justify-center p-2 items-center flex-col h-screen gap-y-2">
-      <h2 className="text-4xl sm:text-6xl font-bold">500</h2>
-      <h2 className="text-2xl sm:text-4xl text-center">
-        Internal Server Error
+    <div className="flex justify-center items-center flex-col h-screen gap-y-2">
+      <h1 className="text-5xl md:text-6xl font-bold">500</h1>
+      <h2 className="text-2xl md:text-3xl text-center">
+        Internal Server Error!!!
       </h2>
-      <p className="text-gray-700 text-center">
-        The server encountered an internal error. Please try again later.
-      </p>
       <div className="flex flex-col md:flex-row gap-4">
-        <Link
-          className="bg-black text-white py-1 px-2 rounded flex items-center gap-2"
-          href="/"
-        >
-          Return Home
-        </Link>
-        <Link
-          className="text-black outline outline-1 py-1 px-2 rounded flex items-center gap-2"
-          href="/"
-        >
-          Contact Support
-        </Link>
+        <Button onClick={handleBackToHome}>Return Home</Button>
+        <div className="flex justify-center items-center">
+          <Button onClick={handleBackToHome} variant={'secondary'}>
+            Contact Support <User className="w-5 h-5 ml-2" />
+          </Button>
+        </div>
       </div>
     </div>
   );
