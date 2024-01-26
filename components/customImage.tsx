@@ -2,7 +2,8 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 
 type ImageProps = {
-  src: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  src: string | any;
   alt: string;
   priority?: boolean;
   className?: string;
