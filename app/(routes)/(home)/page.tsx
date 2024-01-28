@@ -1,5 +1,6 @@
 import banner from '@/assets/banner-img.jpg';
 import { BookingForm } from '@/components/bookingForm';
+import Card from '@/components/card';
 import Container from '@/components/container';
 import CustomImage from '@/components/customImage';
 
@@ -12,6 +13,9 @@ const HomePage = () => {
           <BookingForm />
         </div>
       </div>
+      <Card />
+      {/* <div> App Section</div> */}
+      {/* <div> Footer Section</div> */}
     </Container>
   );
 };
