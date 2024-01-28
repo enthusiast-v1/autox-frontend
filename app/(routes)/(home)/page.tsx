@@ -3,6 +3,7 @@ import { BookingForm } from '@/components/bookingForm';
 import Card from '@/components/card';
 import Container from '@/components/container';
 import CustomImage from '@/components/customImage';
+import MobileApp from '@/components/mobileApp';
 
 const HomePage = () => {
   return (
@@ -14,6 +15,7 @@ const HomePage = () => {
         </div>
       </div>
       <Card />
+      <MobileApp />
       {/* <div> App Section</div> */}
       {/* <div> Footer Section</div> */}
     </Container>
