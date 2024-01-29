@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
 import phoneImage from '@/assets/mobile.png';
 import Image from 'next/image';
 import { Button } from './ui/button';

@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 const Card = () => {
   const svg = (
     <svg
@@ -26,30 +24,30 @@ const Card = () => {
     {
       icon: svg,
       title: 'Save up to 15% Off Base Rate',
-      desc: '  Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestia  facere.',
+      desc: 'Rent by January 31 ans save up to 15% off base rate(time and manage). Terms Apply',
     },
     {
       icon: svg,
-      title: 'Save up to 15% Off Base Rate',
-      desc: '  Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestia  facere.',
+      title: 'Your kind of Travel Planning',
+      desc: ' Sign up recieve our latest benifits, updates and great rates delivered to your inbox',
     },
     {
       icon: svg,
-      title: 'Save up to 15% Off Base Rate',
-      desc: '  Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestia  facere.',
+      title: 'Plus Your Points',
+      desc: 'Join Enterprice Plus @ and be automatic register for our bigesst member promotion of the year.',
     },
   ];
 
   return (
-    <div className="flex justify-between items-center text-center gap-4 my-6 ">
+    <div className="flex flex-col md:flex-row justify-between items-center text-center gap-4  ">
       {cardData.map(card => (
         <div
           key={card.title}
-          className="px-4 py-8  flex  flex-col items-center border gap-2 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] rounded"
+          className="px-4 py-8  flex  flex-col items-center border gap-2 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] rounded w-full"
         >
           {card.icon}
-          <h3 className="text-xl font-bold">{card.title}</h3>
-          <p>{card.desc}</p>
+          <h3 className="text-lg font-bold">{card.title}</h3>
+          <p className="text-sm">{card.desc}</p>
         </div>
       ))}
     </div>
