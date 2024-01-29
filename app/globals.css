@@ -108,3 +108,18 @@
     background: #c20000;
   }
 }
+
+/* car filter section */
+.car-info li {
+  border: 2px solid #706f7b;
+  border-top: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0.9rem 0.5rem;
+  text-align: center;
+  list-style: none;
+}
+
+.car-info li span {
+  border-right: 2px solid #706f7b;
+}

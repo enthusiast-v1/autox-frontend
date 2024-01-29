@@ -1,7 +1,10 @@
 import banner from '@/assets/banner-img.jpg';
 import { BookingForm } from '@/components/bookingForm';
+import CarFilter from '@/components/carFilter';
+import Card from '@/components/card';
 import Container from '@/components/container';
 import CustomImage from '@/components/customImage';
+import MobileApp from '@/components/mobileApp';
 
 const HomePage = () => {
   return (
@@ -12,6 +15,9 @@ const HomePage = () => {
           <BookingForm />
         </div>
       </div>
+      <Card />
+      <MobileApp />
+      <CarFilter />
     </Container>
   );
 };
