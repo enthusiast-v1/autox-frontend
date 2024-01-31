@@ -17,8 +17,10 @@ import { Input } from '@/components/ui/input';
 
 import { toast } from 'sonner';
 
+import GoogleIcon from '@/components/icons/google';
 import { useUserRegisterMutation } from '@/redux/api/authApi';
 import { storeUserInfo } from '@/services/auth.service';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   Card,
@@ -27,15 +29,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from './ui/card';
+} from '../../../components/ui/card';
 
-const Register = () => {
+const Login = () => {
   const router = useRouter();
 
   const [userRegister] = useUserRegisterMutation();
 
   const FormSchema = z.object({
-    name: z.string(),
     email: z.string().email(),
     password: z.string().min(6, {
       message: 'At least 6 characters',
@@ -45,7 +46,6 @@ const Register = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: '',
       email: '',
       password: '',
     },
@@ -68,30 +68,16 @@ const Register = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <Card>
+      <Card>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             <CardHeader className="space-y-1">
-              <CardTitle className="text-2xl">Create a New Account</CardTitle>
+              <CardTitle className="text-2xl">Login Account</CardTitle>
               <CardDescription>
-                Enter your information and start with autox
+                Enter your email & password to access account
               </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Your Name" type="text" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
               <FormField
                 control={form.control}
                 name="email"
@@ -122,15 +108,44 @@ const Register = () => {
                   </FormItem>
                 )}
               />
+
+              <Button className="w-full">Login</Button>
             </CardContent>
-            <CardFooter>
-              <Button className="w-full">Register</Button>
-            </CardFooter>
-          </Card>
-        </form>
-      </Form>
+          </form>
+        </Form>
+
+        <CardFooter className="grid gap-4">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                Or
+              </span>
+            </div>
+          </div>
+
+          <Button
+            className="w-full flex items-center justify-center gap-2"
+            variant="outline"
+          >
+            <GoogleIcon className="w-4 h-4" />
+            Continue with Google
+          </Button>
+
+          <p className="text-center text-sm">
+            Don&apos;t have an account?
+            <Link href={'/register'}>
+              <span className="font-bold cursor-pointer underline underline-offset-2 ml-2">
+                Register
+              </span>
+            </Link>
+          </p>
+        </CardFooter>
+      </Card>
     </div>
   );
 };
 
-export default Register;
+export default Login;

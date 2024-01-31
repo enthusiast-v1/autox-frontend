@@ -68,7 +68,7 @@ const Navbar = () => {
               src={logo}
               alt="logo"
               priority={true}
-              className=" w-32 h-12"
+              className="w-32 h-12"
             />
           </div>
 

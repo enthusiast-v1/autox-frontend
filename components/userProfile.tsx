@@ -42,9 +42,9 @@ export default function UserProfile({
           </Avatar>
         </DropdownMenuTrigger>
       ) : (
-        <Button onClick={() => router.push('/login')} variant={'outline'}>
-          Login
-        </Button>
+        <Link href={'/login'}>
+          <Button variant={'outline'}>Login</Button>
+        </Link>
       )}
 
       <DropdownMenuContent className=" w-48 mt-2 mr-2">
