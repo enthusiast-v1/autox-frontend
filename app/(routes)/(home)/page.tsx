@@ -5,6 +5,7 @@ import Card from '@/components/card';
 import Container from '@/components/container';
 import CustomImage from '@/components/customImage';
 import MobileApp from '@/components/mobileApp';
+import Offer from '@/components/offer';
 
 const HomePage = () => {
   return (
@@ -18,6 +19,7 @@ const HomePage = () => {
       <Card />
       <MobileApp />
       <CarFilter />
+      <Offer />
     </Container>
   );
 };
