@@ -114,7 +114,7 @@ const Register = () => {
             )}
           />
 
-          <div className="grid md:grid-cols-2 gap-4 md:gap-8">
+          <div className="grid md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
               name="name"
@@ -141,6 +141,42 @@ const Register = () => {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input placeholder="Email" type="email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Address</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder="Your Address"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Contact No</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder="Contact no"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
