@@ -14,7 +14,7 @@ const NotFound = () => {
 
       <div className="flex justify-center items-center">
         <Button onClick={() => router.push('/')}>
-          Return Home <Undo2 className=" ml-2 w-5 h-5" />
+          Back Home <Undo2 className=" ml-2 w-5 h-5" />
         </Button>
       </div>
     </div>

@@ -1,7 +1,6 @@
 {
   "name": "autox-frontend",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -26,7 +25,9 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-radio-group": "^1.1.3",
     "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-tabs": "^1.0.4",
     "@reduxjs/toolkit": "^2.0.1",
     "axios": "^1.6.6",
     "class-variance-authority": "^0.7.0",
@@ -35,6 +36,7 @@
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.313.0",
     "next": "14.1.0",
+    "next-cloudinary": "^5.20.0",
     "react": "^18",
     "react-day-picker": "^8.10.0",
     "react-dom": "^18",

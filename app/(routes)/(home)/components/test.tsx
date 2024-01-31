@@ -20,14 +20,7 @@ import {
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { CalendarCheck, CalendarDays, Clock } from 'lucide-react';
@@ -36,13 +29,9 @@ export function BookingForm() {
   const [date, setDate] = React.useState<Date>();
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Rent a Car</CardTitle>
-        <CardDescription>Autox Rental Car. Let&apos;s Go!</CardDescription>
-      </CardHeader>
+    <Card className="h-48">
       <CardContent className="grid gap-6">
-        <RadioGroup defaultValue="card" className="grid grid-cols-3 gap-4">
+        <RadioGroup defaultValue="card" className="grid grid-cols-4 gap-4">
           <div>
             <RadioGroupItem value="card" id="card" className="peer sr-only" />
             <Label
@@ -50,7 +39,7 @@ export function BookingForm() {
               className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
             >
               <Clock className="mb-3 h-6 w-6" />
-              by Hours
+              Hourly
             </Label>
           </div>
           <div>
@@ -64,7 +53,7 @@ export function BookingForm() {
               className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
             >
               <CalendarCheck className="mb-3 h-6 w-6" />
-              by Days
+              Daily
             </Label>
           </div>
           <div>
@@ -74,7 +63,17 @@ export function BookingForm() {
               className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
             >
               <CalendarDays className="mb-3 h-6 w-6" />
-              for Months
+              Weekly
+            </Label>
+          </div>
+          <div>
+            <RadioGroupItem value="apple" id="apple" className="peer sr-only" />
+            <Label
+              htmlFor="apple"
+              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+            >
+              <CalendarDays className="mb-3 h-6 w-6" />
+              Monthly
             </Label>
           </div>
         </RadioGroup>

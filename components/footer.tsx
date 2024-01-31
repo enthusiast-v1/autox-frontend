@@ -18,7 +18,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="py-6 bg-black text-white">
+    <footer className="bg-black text-white py-20">
       <div className="container px-6 mx-auto space-y-6 divide-y divide-gray-400 md:space-y-12 divide-opacity-50">
         <div className="grid grid-cols-12">
           <div className="pb-6 col-span-full md:pb-0 md:col-span-6 w-40 h-20">
