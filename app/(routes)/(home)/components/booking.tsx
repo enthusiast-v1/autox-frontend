@@ -7,23 +7,26 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CalendarCheck, CalendarDays, Clock, SunMoon } from 'lucide-react';
+import { CalendarCheck, CalendarDays, SunMoon } from 'lucide-react';
 import DailyBookingForm from './dailyBookingForm';
-import HourlyBookingForm from './hourlyBookingForm';
-import MonthlyBookingForm from './monthlyBookingForm';
-import WeeklyBookingForm from './weeklyBookingForm';
 
 const BookingPage = () => {
   return (
-    <Tabs defaultValue="hourly" className="h-48">
+    <Tabs defaultValue="daily" className="h-52">
       <TabsList>
         <Select>
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a plan" />
+            <SelectValue
+              placeholder={
+                <span className="flex justify-between items-center">
+                  <SunMoon className="h-4 w-4 mx-2" /> Daily
+                </span>
+              }
+            />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <TabsTrigger
+              {/* <TabsTrigger
                 value="hourly"
                 className="flex items-center justify-center gap-2"
               >
@@ -33,7 +36,7 @@ const BookingPage = () => {
                     Hourly
                   </div>
                 </SelectItem>
-              </TabsTrigger>
+              </TabsTrigger> */}
 
               <TabsTrigger
                 value="daily"
@@ -75,20 +78,20 @@ const BookingPage = () => {
         </Select>
       </TabsList>
 
-      <TabsContent value="hourly">
+      {/* <TabsContent value="hourly">
         <HourlyBookingForm />
-      </TabsContent>
+      </TabsContent> */}
 
       <TabsContent value="daily">
         <DailyBookingForm />
       </TabsContent>
 
       <TabsContent value="weekly">
-        <WeeklyBookingForm />
+        <DailyBookingForm />
       </TabsContent>
 
       <TabsContent value="monthly">
-        <MonthlyBookingForm />
+        <DailyBookingForm />
       </TabsContent>
     </Tabs>
   );

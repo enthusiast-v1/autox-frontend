@@ -12,17 +12,22 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useUserRegisterMutation } from '@/redux/api/authApi';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import * as z from 'zod';
 
 const formSchema = z
   .object({
     name: z.string({ required_error: 'Name is required' }).min(1),
     email: z.string({ required_error: 'Email is required' }).email(),
-    image: z.string({ required_error: 'Image is required' }),
+    image: z.string({ required_error: 'Email is required' }),
+    address: z.string({ required_error: 'Address is required' }),
+    contactNo: z.string({ required_error: 'Contact no is required' }),
     password: z
       .string({ required_error: 'Password is required' })
       .min(6, { message: 'Password must be 6 or more long' }),
@@ -45,12 +50,11 @@ const formSchema = z
 type AdminFormValues = z.infer<typeof formSchema>;
 
 const Register = () => {
-  // const params = useParams();
-  // const router = useRouter();
+  const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
-  // const [createAdmin] = useCreateAdminMutation();
+  const [register] = useUserRegisterMutation();
 
   const form = useForm<AdminFormValues>({
     resolver: zodResolver(formSchema),
@@ -59,23 +63,24 @@ const Register = () => {
   const onSubmit = async (data: AdminFormValues) => {
     setLoading(true);
 
-    const adminData = {
+    const registerData = {
       name: data.name,
       email: data.email,
-      password: data.password,
       image: data.image,
+      address: data.address,
+      contactNo: data.contactNo,
+      password: data.password,
     };
 
-    // eslint-disable-next-line no-console
-    console.log(adminData);
-    // const res: any = await createAdmin(adminData);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const res: any = await register(registerData);
 
-    // if (res?.data?._id) {
-    //   router.push(`/${params.storeId}/settings/admins`);
-    //   toast.success("Admin created successfully");
-    // } else if (res?.error) {
-    //   toast.error(res?.error?.message);
-    // }
+    if (res?.data?._id) {
+      router.push(`/`);
+      toast.success('Registion completed successfully');
+    } else if (res?.error) {
+      toast.error(res?.error?.message);
+    }
 
     setLoading(false);
   };
@@ -120,11 +125,11 @@ const Register = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>First Name</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="First Name"
+                      placeholder="Your name"
                       {...field}
                     />
                   </FormControl>
@@ -140,7 +145,7 @@ const Register = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Email" type="email" {...field} />
+                    <Input placeholder="Your email" type="email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -149,7 +154,7 @@ const Register = () => {
 
             <FormField
               control={form.control}
-              name="name"
+              name="address"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Address</FormLabel>
@@ -167,14 +172,15 @@ const Register = () => {
 
             <FormField
               control={form.control}
-              name="name"
+              name="contactNo"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Contact No</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Contact no"
+                      placeholder="Your contact no"
+                      type="number"
                       {...field}
                     />
                   </FormControl>

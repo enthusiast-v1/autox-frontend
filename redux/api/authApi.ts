@@ -3,18 +3,18 @@ import { baseApi } from './baseApi';
 export const authApi = baseApi.injectEndpoints({
   endpoints: build => ({
     userRegister: build.mutation({
-      query: () => ({
+      query: registerData => ({
         url: '/auth/register',
         method: 'POST',
-        data: '',
+        data: registerData,
       }),
     }),
 
     userLogin: build.mutation({
-      query: () => ({
+      query: loginData => ({
         url: '/auth/login',
         method: 'POST',
-        data: '',
+        data: loginData,
       }),
     }),
   }),
