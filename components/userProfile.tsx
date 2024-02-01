@@ -2,7 +2,7 @@
 
 import { authKey } from '@/constants/authKey';
 import { removeUserInfo } from '@/services/auth.service';
-import { LogOut, Settings, User } from 'lucide-react';
+import { LayoutDashboard, LogOut, Settings, User } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -27,19 +27,24 @@ export default function UserProfile({
 }) {
   const router = useRouter();
 
-  const handleSignOut = () => {
+  const handleLogout = () => {
     removeUserInfo(authKey);
-    toast.success('Signed out successfully');
-    router.push('/signIn');
+    toast.success('Logout successfully');
+    router.refresh();
+    router.push('/');
   };
 
   return (
     <DropdownMenu>
-      {data?.image ? (
+      {data ? (
         <DropdownMenuTrigger asChild>
-          <Avatar>
-            <CustomImage src={data?.image} alt="user image" priority={true} />
-          </Avatar>
+          {data?.image ? (
+            <Avatar>
+              <CustomImage src={data?.image} alt="user image" priority={true} />
+            </Avatar>
+          ) : (
+            <User className="w-full h-full text-white" />
+          )}
         </DropdownMenuTrigger>
       ) : (
         <Link href={'/login'}>
@@ -51,23 +56,22 @@ export default function UserProfile({
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link href={`/profile`}>
-            <DropdownMenuItem>
-              <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
-            </DropdownMenuItem>
-          </Link>
-
-          <Link href={`/settings`}>
+          <Link href={`/account`}>
             <DropdownMenuItem>
               <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
+              <span>Manage Account</span>
+            </DropdownMenuItem>
+          </Link>
+          <Link href={`/dashboard`}>
+            <DropdownMenuItem>
+              <LayoutDashboard className="mr-2 h-4 w-4" />
+              <span>Dashboard</span>
             </DropdownMenuItem>
           </Link>
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => handleSignOut()}>
+        <DropdownMenuItem onClick={() => handleLogout()}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Sign out</span>
         </DropdownMenuItem>

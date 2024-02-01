@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 
 import GoogleIcon from '@/components/icons/google';
-import { useUserRegisterMutation } from '@/redux/api/authApi';
+import { useUserLoginMutation } from '@/redux/api/authApi';
 import { storeUserInfo } from '@/services/auth.service';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -34,7 +34,7 @@ import {
 const Login = () => {
   const router = useRouter();
 
-  const [userRegister] = useUserRegisterMutation();
+  const [userLogin] = useUserLoginMutation();
 
   const FormSchema = z.object({
     email: z.string().email(),
@@ -51,9 +51,9 @@ const Login = () => {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(loginData: z.infer<typeof FormSchema>) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const res: any = await userRegister(data);
+    const res: any = await userLogin(loginData);
 
     if (res && res?.data?.accessToken) {
       toast.success('Login in successfully!');

@@ -21,7 +21,7 @@ const HomePage = () => {
             <h2 className="text-4xl ">Autox Rental. Let&apos;s Go!</h2>
           </div>
         </div>
-        <div className="absolute bottom-[15%] left-0 right-0 mx-auto w-[70%]">
+        <div className="absolute bottom-[20%] left-0 right-0 mx-auto w-[70%]">
           <BookingPage />
         </div>
       </div>

@@ -7,11 +7,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
+import { addDays, format } from 'date-fns';
+
 import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,7 +21,12 @@ import {
 import { Input } from '@/components/ui/input';
 
 import Loader from '@/components/loader';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Calendar } from '@/components/ui/calendar';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import {
   Select,
   SelectContent,
@@ -29,16 +35,32 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { times } from '@/constants/timeList';
+import { cn } from '@/lib/utils';
+import { CalendarIcon } from 'lucide-react';
 
 const formSchema = z.object({
-  pickUpLocation: z.string({ required_error: 'Location is required' }),
-  pickUpDate: z.string({ required_error: 'Date is required' }),
-  pickUpTime: z.string({ required_error: 'Time is required' }),
-  dropOffLocation: z.string({ required_error: 'Location is required' }),
-  dropOffDate: z.string({ required_error: 'Date is required' }),
-  dropOffTime: z.string({ required_error: 'Time is required' }),
-  vehicleType: z.string().optional(),
-  driverRequired: z.boolean().optional(),
+  pickUpLocation: z.string({ required_error: '' }),
+
+  pickUpTime: z.string({ required_error: '' }),
+  dropOffLocation: z.string({ required_error: '' }),
+
+  dropOffTime: z.string({ required_error: '' }),
+  vehicle: z.string({ required_error: '' }),
+  driverRequired: z.string({ required_error: '' }),
+
+  pickUpDate: z
+    .date({ required_error: '' })
+    .refine(
+      data => data > addDays(new Date(), -1),
+      'Date must be in the future',
+    ),
+
+  dropOffDate: z
+    .date({ required_error: '' })
+    .refine(
+      data => data > addDays(new Date(), -1),
+      'Date must be in the future',
+    ),
 });
 
 type dailyBookingFormValues = z.infer<typeof formSchema>;
@@ -48,6 +70,15 @@ const DailyBookingForm = () => {
 
   const form = useForm<dailyBookingFormValues>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      pickUpLocation: undefined,
+      dropOffLocation: undefined,
+      pickUpDate: undefined,
+      dropOffDate: undefined,
+      pickUpTime: undefined,
+      dropOffTime: undefined,
+      driverRequired: 'driver',
+    },
   });
 
   const onSubmit = async () => {
@@ -79,142 +110,257 @@ const DailyBookingForm = () => {
   };
 
   return (
-    <>
+    <div className="bg-white rounded-md p-4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-          <div className="grid md:grid-cols-3 gap-4 md:gap-8">
-            <FormField
-              control={form.control}
-              name="pickUpLocation"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Pick-up location"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="dropOffLocation"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Drop-off location"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="pickUpTime"
-              render={({ field }) => (
-                <FormItem>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
+          <div className="grid md:grid-cols-7 gap-2 md:gap-4">
+            <div className="col-span-2 space-y-[6px]">
+              <FormField
+                control={form.control}
+                name="pickUpLocation"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Pick-up location</FormLabel>
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Pick-up time"
-                        />
-                      </SelectTrigger>
+                      <Input disabled={loading} {...field} />
                     </FormControl>
-                    <SelectContent>
-                      {times?.map(t => (
-                        <SelectItem key={t.id} value={t.time}>
-                          {t.time}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="dropOffTime"
-              render={({ field }) => (
-                <FormItem>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
+              <FormField
+                control={form.control}
+                name="dropOffLocation"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Drop-off location</FormLabel>
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Pick-up time"
-                        />
-                      </SelectTrigger>
+                      <Input disabled={loading} {...field} />
                     </FormControl>
-                    <SelectContent>
-                      {times?.map(t => (
-                        <SelectItem key={t.id} value={t.time}>
-                          {t.time}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-            <FormField
-              control={form.control}
-              name="driverRequired"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>Archived</FormLabel>
-                    <FormDescription>
-                      This product will not appear anywhere in the store
-                    </FormDescription>
-                  </div>
-                </FormItem>
-              )}
-            />
+            <div className="col-span-2 items-center">
+              <FormField
+                control={form.control}
+                name="pickUpDate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Pick-up date</FormLabel>
+                    <FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant={'outline'}
+                            className={cn(
+                              'w-full justify-start text-left font-normal',
+                              !field.value && 'text-muted-foreground',
+                            )}
+                          >
+                            {field.value ? (
+                              <>
+                                <CalendarIcon className="mr-2 h-4 w-4" />{' '}
+                                {format(field.value, 'PPP')}
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="dropOffDate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Drop-off date</FormLabel>
+                    <FormControl>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant={'outline'}
+                            className={cn(
+                              'w-full justify-start text-left font-normal',
+                              !field.value && 'text-muted-foreground',
+                            )}
+                          >
+                            {field.value ? (
+                              <>
+                                <CalendarIcon className="mr-2 h-4 w-4" />{' '}
+                                {format(field.value, 'PPP')}
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="col-span-1 items-center space-y-2">
+              <FormField
+                control={form.control}
+                name="pickUpTime"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Pick-up time</FormLabel>
+                    <Select
+                      disabled={loading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue defaultValue={field.value} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {times?.map(t => (
+                          <SelectItem key={t.id} value={t.time}>
+                            {t.time}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="dropOffTime"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Drop-off date</FormLabel>
+                    <Select
+                      disabled={loading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue defaultValue={field.value} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {times?.map(t => (
+                          <SelectItem key={t.id} value={t.time}>
+                            {t.time}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="col-span-2 items-center space-y-2">
+              <FormField
+                control={form.control}
+                name="vehicle"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Choose a vehicle</FormLabel>
+                    <Select
+                      disabled={loading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue defaultValue={field.value} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="BMW-e4">BMW-e4 - 4p</SelectItem>
+                        <SelectItem value="BMW-e5">BMW-e5 - 6p</SelectItem>
+                        <SelectItem value="BMW-e6">BMW-e6 - 8p</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="driverRequired"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Cutomized option</FormLabel>
+                    <Select
+                      disabled={loading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue defaultValue={field.value} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="driver">Need driver</SelectItem>
+                        <SelectItem value="self">Self drive</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
-          <Button disabled={loading} className="ml-auto" type="submit">
-            {loading ? (
-              <>
-                Book Now
-                <Loader />
-              </>
-            ) : (
-              <>Book Now</>
-            )}
-          </Button>
+          <div className="flex justify-end mt-6">
+            <Button disabled={loading} className="w-[27%]" type="submit">
+              {loading ? (
+                <>
+                  Book Now
+                  <Loader />
+                </>
+              ) : (
+                <>Book Now</>
+              )}
+            </Button>
+          </div>
         </form>
       </Form>
-    </>
+    </div>
   );
 };
 

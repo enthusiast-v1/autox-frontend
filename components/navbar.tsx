@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import { getUserInfo } from '@/services/auth.service';
 import { Menu, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -13,7 +14,8 @@ import UserProfile from './userProfile';
 const Navbar = () => {
   // const { data } = useGetUserProfileQuery({});
 
-  const data = {};
+  const data = getUserInfo();
+  const [isMounted, setIsMounted] = useState(false);
 
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -45,6 +47,14 @@ const Navbar = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <nav className="bg-black" ref={navRef}>
