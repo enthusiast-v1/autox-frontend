@@ -1,10 +1,10 @@
 import { authKey } from '@/constants/authKey';
 import { instance as axiosInstance } from '@/helpers/axios/axiosInstance';
 import { getBaseUrl } from '@/helpers/baseUrl';
+import { CustomJwtPayload } from '@/types/common';
 import { decodedToken } from '@/utils/jwtDecode';
 
 import { getFromLocalStorage, setToLocalStorage } from '@/utils/localStorage';
-import { JwtPayload } from 'jwt-decode';
 
 export const storeUserInfo = (accessToken: string) => {
   return setToLocalStorage(authKey, accessToken);
@@ -13,11 +13,12 @@ export const storeUserInfo = (accessToken: string) => {
 export const getUserInfo = () => {
   const authToken = getFromLocalStorage(authKey);
 
-  if (authToken) {
-    const decodedData: JwtPayload = decodedToken(authToken);
+  try {
+    const decodedData = decodedToken(authToken as string) as CustomJwtPayload;
     return decodedData;
-  } else {
-    return '';
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
   }
 };
 

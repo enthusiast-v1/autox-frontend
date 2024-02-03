@@ -93,9 +93,8 @@ const VehicleForm = () => {
     resolver: zodResolver(formSchema),
   });
 
-  function onSubmit(values: VehicleFormValues) {
-    console.log(values);
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+  function onSubmit(values: VehicleFormValues) {}
   return (
     <div className="p-4 w-2/3 mx-auto">
       <h3 className="text-2xl pb-4 mb-10 border-b-2">Create Vehicele</h3>

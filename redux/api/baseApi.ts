@@ -1,10 +1,11 @@
 import { axiosBaseQuery } from '@/helpers/axios/axiosBaseQuery';
-import { getBaseUrl } from '@/helpers/baseUrl';
 import { createApi } from '@reduxjs/toolkit/query/react';
 
 export const baseApi = createApi({
   reducerPath: 'api',
-  baseQuery: axiosBaseQuery({ baseUrl: getBaseUrl() }),
+  baseQuery: axiosBaseQuery({
+    baseUrl: 'https://autox-backend.vercel.app/api/v1',
+  }),
   endpoints: () => ({}),
   tagTypes: [],
 });

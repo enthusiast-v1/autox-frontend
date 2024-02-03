@@ -1,3 +1,4 @@
+import DailyBookingForm from '@/components/forms/dailyBookingForm';
 import {
   Select,
   SelectContent,
@@ -8,7 +9,6 @@ import {
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CalendarCheck, CalendarDays, SunMoon } from 'lucide-react';
-import DailyBookingForm from './dailyBookingForm';
 
 const BookingPage = () => {
   return (

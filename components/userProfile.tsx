@@ -1,7 +1,8 @@
 'use client';
 
 import { authKey } from '@/constants/authKey';
-import { removeUserInfo } from '@/services/auth.service';
+import { useGetProfileQuery } from '@/redux/api/profileApi';
+import { getUserInfo, removeUserInfo } from '@/services/auth.service';
 import { LayoutDashboard, LogOut, Settings, User } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -19,24 +20,22 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 
-export default function UserProfile({
-  data,
-}: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any;
-}) {
+export default function UserProfile() {
+  const user = getUserInfo();
+
+  const { data } = useGetProfileQuery(user?.id);
+
   const router = useRouter();
 
   const handleLogout = () => {
     removeUserInfo(authKey);
     toast.success('Logout successfully');
-    router.refresh();
-    router.push('/');
+    router.replace('/');
   };
 
   return (
     <DropdownMenu>
-      {data ? (
+      {data?.user?.email ? (
         <DropdownMenuTrigger asChild>
           {data?.image ? (
             <Avatar>

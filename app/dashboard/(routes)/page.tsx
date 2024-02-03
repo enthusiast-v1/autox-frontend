@@ -1,5 +1,9 @@
 const DashboardPage = () => {
-  return <div>This is Dashboard Page</div>;
+  return (
+    <div>
+      <div className="flex flex-col">This is DashboardPage</div>
+    </div>
+  );
 };
 
 export default DashboardPage;

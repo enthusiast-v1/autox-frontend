@@ -36,9 +36,8 @@ const DriverForm = () => {
     resolver: zodResolver(formSchema),
   });
 
-  function onSubmit(values: DriverFormValues) {
-    console.log(values);
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+  function onSubmit(values: DriverFormValues) {}
   return (
     <div className="p-4 w-2/3 mx-auto">
       <h3 className="text-2xl pb-4 mb-10 border-b-2">Create Driver</h3>
@@ -67,7 +66,7 @@ const DriverForm = () => {
                 <FormItem>
                   <FormLabel>NID NO</FormLabel>
                   <FormControl>
-                    <Input type="date" placeholder="NID No" {...field} />
+                    <Input placeholder="NID No" {...field} />
                   </FormControl>
 
                   <FormMessage />

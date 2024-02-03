@@ -1,5 +1,9 @@
 const AccountPage = () => {
-  return <div>This is Account page</div>;
+  return (
+    <>
+      <div className="flex flex-col">Overview page</div>
+    </>
+  );
 };
 
 export default AccountPage;

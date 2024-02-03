@@ -1,6 +1,8 @@
 'use client';
 
-import Navbar from '@/components/navbar';
+import SecondaryNavBar from '@/components/secondaryNavBar';
+import SideBar from '@/components/sideBar';
+import accountNavItems from '@/constants/accountNavItems';
 import { getUserInfo } from '@/services/auth.service';
 import { redirect } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -24,8 +26,8 @@ const AccountLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="max-w-7xl mx-auto">
-      <Navbar />
-      {children}
+      <SecondaryNavBar />
+      <SideBar sideNavItems={accountNavItems('customer')}>{children}</SideBar>
     </div>
   );
 };

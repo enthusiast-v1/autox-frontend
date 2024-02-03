@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useUserRegisterMutation } from '@/redux/api/authApi';
+import { storeUserInfo } from '@/services/auth.service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -75,9 +76,10 @@ const Register = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const res: any = await register(registerData);
 
-    if (res?.data?._id) {
-      router.push(`/`);
+    if (res?.data?.user?.id) {
       toast.success('Registion completed successfully');
+      storeUserInfo(res?.data?.accessToken);
+      router.push('/');
     } else if (res?.error) {
       toast.error(res?.error?.message);
     }
