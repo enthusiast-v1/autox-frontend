@@ -1,11 +1,12 @@
 import Footer from '@/components/footer';
-import Navbar from '@/components/navbar';
+import NavBar from '@/components/navBar';
+
 import React from 'react';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="max-w-7xl mx-auto">
-      <Navbar />
+      <NavBar />
       {children}
       <Footer />
     </main>

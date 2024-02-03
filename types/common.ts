@@ -1,3 +1,6 @@
+import { JwtPayload } from 'jwt-decode';
+import { LucideIcon } from 'lucide-react';
+
 export type IMeta = {
   limit: number;
   page: number;
@@ -29,3 +32,25 @@ export type IRegisterResponse = {
   };
   accessToken: string;
 };
+
+export type CustomJwtPayload = {
+  id: string;
+  role: string;
+} & JwtPayload;
+
+export type TSideNavItemsProps = {
+  title: string;
+  label: string;
+  link: string;
+  key: string;
+  icon: LucideIcon;
+  variant:
+    | 'ghost'
+    | 'link'
+    | 'default'
+    | 'destructive'
+    | 'outline'
+    | 'secondary'
+    | null
+    | undefined;
+}[];
