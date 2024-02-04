@@ -20,7 +20,7 @@ const AccountLayout = ({ children }: { children: React.ReactNode }) => {
     return null;
   }
 
-  if (!user) {
+  if (user.role !== 'admin') {
     redirect('/login');
   }
 

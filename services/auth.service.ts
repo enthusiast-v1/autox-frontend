@@ -4,31 +4,33 @@ import { getBaseUrl } from '@/helpers/baseUrl';
 import { CustomJwtPayload } from '@/types/common';
 import { decodedToken } from '@/utils/jwtDecode';
 
-import { getFromLocalStorage, setToLocalStorage } from '@/utils/localStorage';
+import {
+  getFromCookies,
+  removeFromCookies,
+  setToCookies,
+} from '@/utils/cookiesStorage';
 
 export const storeUserInfo = (accessToken: string) => {
-  return setToLocalStorage(authKey, accessToken);
+  return setToCookies(authKey, accessToken);
 };
 
 export const getUserInfo = () => {
-  const authToken = getFromLocalStorage(authKey);
+  const authToken = getFromCookies(authKey);
 
-  try {
+  if (authToken) {
     const decodedData = decodedToken(authToken as string) as CustomJwtPayload;
     return decodedData;
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
   }
+  return { id: '', role: '' };
 };
 
 export const isLoggedIn = () => {
-  const authToken = getFromLocalStorage(authKey);
+  const authToken = getFromCookies(authKey);
   return !!authToken;
 };
 
 export const removeUserInfo = (key: string) => {
-  return localStorage.removeItem(key);
+  return removeFromCookies(key);
 };
 
 export const getNewAccessToken = async () => {

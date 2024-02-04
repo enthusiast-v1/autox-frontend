@@ -30,7 +30,7 @@ export default function UserProfile() {
   const handleLogout = () => {
     removeUserInfo(authKey);
     toast.success('Logout successfully');
-    router.replace('/');
+    router.refresh();
   };
 
   return (

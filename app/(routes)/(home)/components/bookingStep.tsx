@@ -7,10 +7,10 @@ const BookingStep = () => {
       <h3 className="uppercase text-md font-extrabold opacity-50">
         How it work
       </h3>
-      <h2 className="text-3xl font-bold mt-4">
+      <h2 className="text-xl lg:text-3xl font-bold mt-4">
         Rent your desired car with following 3 working steps
       </h2>
-      <div className="w-2/3 mx-auto gap-4 my-10 flex justify-between items-center">
+      <div className="w-full md:w-2/3 mx-auto gap-4 my-10 md:flex justify-between items-center">
         <div className="flex flex-col items-center justify-center space-y-2 mt-10">
           <CalendarCheck className="w-20 h-20 p-6 rounded-lg shadow-xl mb-4 cursor-pointer" />
           <h1 className="text-lg font-bold">Pick-up data/time</h1>
