@@ -51,7 +51,7 @@ const TopVehicle = () => {
       Fuel: 'Diesel',
     },
     {
-      id: 3,
+      id: 4,
       name: 'Audi A1 S-line',
       image: car4,
       price: '60',
@@ -64,7 +64,7 @@ const TopVehicle = () => {
       Fuel: 'Diesel',
     },
     {
-      id: 3,
+      id: 5,
       name: 'Audi A1 S-line',
       image: car5,
       price: '60',
