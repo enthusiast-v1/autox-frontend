@@ -1,11 +1,11 @@
-import VehicleForm from '@/components/forms/vehicleForm';
+import { VehicleTable } from './components/vehicleTable';
 
-const ManageVehiclePage = () => {
+const ManageVehicle = () => {
   return (
     <div>
-      <VehicleForm />
+      <VehicleTable />
     </div>
   );
 };
 
-export default ManageVehiclePage;
+export default ManageVehicle;

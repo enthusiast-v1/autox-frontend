@@ -9,7 +9,14 @@ export const driverApi = baseApi.injectEndpoints({
         data: '',
       }),
     }),
+
+    getAllDriver: build.query({
+      query: () => ({
+        url: '/drivers',
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useCreateDriverMutation } = driverApi;
+export const { useCreateDriverMutation, useGetAllDriverQuery } = driverApi;
