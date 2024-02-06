@@ -21,6 +21,7 @@ const RegisterPage = () => {
             <Image src={logo} alt="logo" className=" mr-2 w-32 h-12" />
           </Link>
         </div>
+
         <div className="mt-40 mb-36 tracking-wider">
           <div>
             <CustomImage
