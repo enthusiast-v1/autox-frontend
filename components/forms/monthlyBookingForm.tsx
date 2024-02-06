@@ -117,7 +117,7 @@ const MonthlyBookingForm = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full h-48 px-4 py-2 md:h-full overflow-auto"
         >
-          <div className="grid md:grid-cols-8 gap-2 md:gap-4">
+          <div className="grid md:grid-cols-7 gap-2 md:gap-4">
             <div className="col-span-2 space-y-[6px]">
               <FormField
                 control={form.control}
@@ -231,7 +231,7 @@ const MonthlyBookingForm = () => {
               />
             </div>
 
-            <div className="col-span-2 items-center space-y-2">
+            <div className="col-span-2 md:col-span-1 items-center space-y-2">
               <FormField
                 control={form.control}
                 name="pickUpTime"

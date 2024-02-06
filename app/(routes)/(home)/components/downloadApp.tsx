@@ -16,7 +16,7 @@ const DownloadApp = () => {
         </p>
         <div className="flex justify-center md:justify-start gap-4">
           <div className="flex gap-2 justify-center items-center p-2 h-14 rounded-md bg-black text-white cursor-pointer shadow-lg hover:opacity-90">
-            <PlayStoreIcon className="w-4 md:w-6 lg:w-8 h-4 md:h-6 lg:h-8" />
+            <PlayStoreIcon className="w-8 md:w-6 lg:w-8 h-8 md:h-6 lg:h-8" />
             <div>
               <h3 className="uppercase text-[8px] lg:text-[10px]">Get it on</h3>
               <h1 className="text-sm md:text-md lg:text-lg font-semibold leading-tight">
@@ -26,7 +26,7 @@ const DownloadApp = () => {
           </div>
 
           <div className="flex gap-2 justify-center items-center p-2 h-14 rounded-md bg-black text-white cursor-pointer shadow-lg hover:opacity-90">
-            <AppStoreIcon className="w-4 md:w-6 lg:w-8 h-4 md:h-6 lg:h-8" />
+            <AppStoreIcon className="w-8 md:w-6 lg:w-8 h-8 md:h-6 lg:h-8" />
             <div>
               <h3 className="uppercase text-[8px] lg:text-[10px] ">
                 Download on the
