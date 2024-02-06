@@ -1,28 +1,17 @@
-'use client';
-
-import { getUserInfo } from '@/services/auth.service';
 import { redirect } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import SecondaryNavBar from '@/components/secondaryNavBar';
-import SideBar from '@/components/sideBar';
-import dashboardNavItems from '@/constants/dashboardNavItems';
+import { authKey } from '@/constants/authKey';
+import { getCookie } from 'cookies-next';
+import { cookies } from 'next/headers';
 
 export default function SetupLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [isMounted, setIsMounted] = useState(false);
-  const user = getUserInfo();
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
+  const user = getCookie(authKey, { cookies });
 
   if (!user) {
     redirect('/login');
@@ -31,9 +20,10 @@ export default function SetupLayout({
   return (
     <div className="max-w-7xl mx-auto">
       <SecondaryNavBar />
-      <SideBar sideNavItems={dashboardNavItems('super_admin')}>
-        {children}
-      </SideBar>
+      {children}
+      {/* <SideBar sideNavItems={dashboardNavItems('super_admin')}>
+       
+      </SideBar> */}
     </div>
   );
 }

@@ -14,7 +14,7 @@ export const storeUserInfo = (accessToken: string) => {
   return setToCookies(authKey, accessToken);
 };
 
-export const getUserInfo = () => {
+export const getClientUserInfo = () => {
   const authToken = getFromCookies(authKey);
 
   if (authToken) {
