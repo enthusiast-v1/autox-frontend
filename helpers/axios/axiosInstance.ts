@@ -1,7 +1,7 @@
 import { authKey } from '@/constants/authKey';
 import { getNewAccessToken, removeUserInfo } from '@/services/auth.service';
 import { IGenericErrorResponse, ResponseSuccessType } from '@/types/common';
-import { getFromLocalStorage, setToLocalStorage } from '@/utils/localStorage';
+import { getFromCookies, setToCookies } from '@/utils/cookiesStorage';
 import axios from 'axios';
 import { toast } from 'sonner';
 
@@ -13,7 +13,7 @@ instance.defaults.timeout = 60000;
 
 instance.interceptors.request.use(
   function (config) {
-    const accessToken = getFromLocalStorage(authKey);
+    const accessToken = getFromCookies(authKey);
 
     if (accessToken) {
       config.headers.Authorization = accessToken;
@@ -51,7 +51,7 @@ instance.interceptors.response.use(
 
         config.headers['Authorization'] = accessToken;
 
-        setToLocalStorage(authKey, accessToken);
+        setToCookies(authKey, accessToken);
 
         return instance(config);
       } else {
