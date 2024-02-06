@@ -1,90 +1,49 @@
-'use client';
-
-import { cn } from '@/lib/utils';
-import { Menu, X } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import { AlignRight } from 'lucide-react';
+import Link from 'next/link';
 import logo from '../assets/logo.png';
 import CustomImage from './customImage';
 import { NavItems } from './navItems';
-import { Button } from './ui/button';
 import UserProfile from './userProfile';
 
 const NavBar = () => {
-  const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
-  const navRef = useRef<HTMLDivElement | null>(null);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
-
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleClickOutside = (event: any) => {
-      if (navRef.current && !navRef.current.contains(event.target)) {
-        closeMenu();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpen]);
-
   return (
-    <nav className="bg-black" ref={navRef}>
-      <div className="relative flex h-16 px-4 items-center justify-between">
-        <div className="absolute inset-y-0 left-2 flex items-center md:hidden">
-          <Button
-            onClick={toggleMenu}
-            variant={'outline'}
-            className="relative px-3 h-9"
-          >
-            {isOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
-          </Button>
-        </div>
+    <nav className="bg-black flex h-16 px-4 items-center justify-between">
+      <div className="flex items-stretch justify-start ml-2">
+        <Link href={'/'}>
+          <CustomImage
+            src={logo}
+            alt="logo"
+            priority={true}
+            className="w-24 md:w-32 h-10 md:h-12"
+          />
+        </Link>
 
-        <div className="flex flex-1 items-stretch justify-start ml-10 md:ml-1">
-          <div
-            onClick={() => router.push('/')}
-            className="flex flex-shrink-0 items-center"
-          >
-            <CustomImage
-              src={logo}
-              alt="logo"
-              priority={true}
-              className="w-32 h-12"
-            />
-          </div>
-
-          <div className="hidden md:block">
-            <NavItems onClose={closeMenu} />
-          </div>
-        </div>
-
-        <div className=" ml-auto flex items-center space-x-4">
-          <UserProfile />
+        <div className="hidden md:block">
+          <NavItems />
         </div>
       </div>
 
-      <div
-        className={cn(
-          'md:hidden bg-white dark:bg-black ',
-          isOpen ? 'block ' : 'hidden',
-        )}
-      >
-        <NavItems onClose={closeMenu} />
+      <div className="ml-auto flex items-center space-x-4 mr-2">
+        <UserProfile />
+        <Sheet>
+          <SheetTrigger asChild className="md:hidden">
+            <AlignRight className="w-6 h-6 text-white" />
+          </SheetTrigger>
+          <SheetContent
+            side={'right'}
+            className="flex items-center justify-center bg-black border-none"
+          >
+            <SheetClose>
+              <NavItems />
+            </SheetClose>
+          </SheetContent>
+        </Sheet>
       </div>
     </nav>
   );

@@ -1,4 +1,5 @@
 import banner from '@/assets/banner-img.png';
+import Card from '@/components/card';
 import Container from '@/components/container';
 import CustomImage from '@/components/customImage';
 import BookingPage from './components/booking';
@@ -31,6 +32,8 @@ const HomePage = () => {
       </div>
 
       <BookingStep />
+
+      <Card />
 
       <TopVehicle />
       <DownloadApp />
