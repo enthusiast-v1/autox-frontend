@@ -1,11 +1,11 @@
-import DriverForm from '@/components/forms/driverForm';
+import { DriverTable } from './components/driverTable';
 
-const ManageDriverPage = () => {
+const ManageDriver = () => {
   return (
     <div>
-      <DriverForm />
+      <DriverTable />
     </div>
   );
 };
 
-export default ManageDriverPage;
+export default ManageDriver;

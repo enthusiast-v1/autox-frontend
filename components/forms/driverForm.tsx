@@ -18,8 +18,20 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+
+//dummy data
+const initialData = {
+  licenseNo: 'DL123456',
+  licenseExpire: '2025-05-15T00:00:00Z',
+  nidNo: '1234567890',
+  status: 'Accident',
+  userId: 'U123',
+  createdAt: '2024-02-04T12:00:00Z',
+  updatedAt: '2024-02-04T12:00:00Z',
+};
 
 const formSchema = z.object({
   licenseNo: z.string({ required_error: 'License no is required' }).min(1),
@@ -32,15 +44,36 @@ const formSchema = z.object({
 type DriverFormValues = z.infer<typeof formSchema>;
 
 const DriverForm = () => {
+  const params = useParams();
+  const { driverId } = params;
+  console.log(driverId);
+  const title = initialData ? 'Update Driver' : 'Create Driver';
+  const action = initialData ? 'Save changes' : 'Create';
+
+  const defaultValues = {
+    licenseNo: initialData?.licenseNo,
+    licenseExpire: initialData?.licenseExpire
+      ? new Date(initialData.licenseExpire).toISOString().split('T')[0]
+      : '',
+    nidNo: initialData?.nidNo,
+    status: initialData?.status,
+    userId: initialData?.userId,
+  };
   const form = useForm<DriverFormValues>({
     resolver: zodResolver(formSchema),
+    defaultValues: defaultValues,
   });
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-  function onSubmit(values: DriverFormValues) {}
+  function onSubmit(values: DriverFormValues) {
+    console.log(values);
+    if (initialData) {
+      console.log('update');
+    } else {
+      console.log('create');
+    }
+  }
   return (
-    <div className="p-4 w-2/3 mx-auto">
-      <h3 className="text-2xl pb-4 mb-10 border-b-2">Create Driver</h3>
+    <>
+      <h3 className="text-2xl pb-4 mb-10 border-b-2 font-bold">{title}</h3>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -64,9 +97,13 @@ const DriverForm = () => {
               name="licenseExpire"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>NID NO</FormLabel>
+                  <FormLabel>License Expire</FormLabel>
                   <FormControl>
-                    <Input placeholder="NID No" {...field} />
+                    <Input
+                      type="date"
+                      placeholder="license expire "
+                      {...field}
+                    />
                   </FormControl>
 
                   <FormMessage />
@@ -135,10 +172,10 @@ const DriverForm = () => {
               )}
             />
           </div>
-          <Button type="submit">Create Driver</Button>
+          <Button type="submit">{action}</Button>
         </form>
       </Form>
-    </div>
+    </>
   );
 };
 
