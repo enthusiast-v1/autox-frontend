@@ -22,18 +22,39 @@ import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import ImageUpload from '../imageUpload';
+
+const initialData = {
+  vehicleId: 'V123',
+  model: 'Toyota Corolla',
+  mileage: 50000.5,
+  color: 'Blue',
+  images: [
+    'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Y2FyfGVufDB8fDB8fHww',
+  ],
+
+  overview: 'Well-maintained sedan with spacious interior',
+  basePrice: 25000,
+  fuelType: 'Petrol',
+  passengerCapacity: 5,
+  location: 'New York',
+  plateNo: 'ABC123',
+  chassisNo: '12345678901234567',
+  status: 'Available',
+  owner: 'John Doe',
+  vehicleType: 'Sedan',
+  brand: 'Toyota',
+  driverId: 'D1234',
+  createdAt: '2024-02-04T10:00:00Z',
+  updatedAt: '2024-02-04T10:00:00Z',
+};
 
 const formSchema = z.object({
   vehicleId: z.string({ required_error: 'Vehicle Id is required' }).min(1),
   model: z.string({ required_error: 'Model is required' }).min(1),
   mileage: z.coerce.number({ required_error: 'Mileage no is required' }).min(1),
   color: z.string({ required_error: 'Color is required' }).min(1),
-  images: z
-    .string({
-      required_error: 'Images required',
-    })
-    .min(1),
-
+  images: z.string({ required_error: 'Status is required' }),
   overview: z.string({ required_error: 'Overview  is required' }).min(1),
   basePrice: z.coerce
     .number({ required_error: 'Base price  is required' })
@@ -89,33 +110,62 @@ const formSchema = z.object({
 type VehicleFormValues = z.infer<typeof formSchema>;
 
 const VehicleForm = () => {
+  const defaultValues = {
+    vehicleId: initialData?.vehicleId,
+    model: initialData?.model,
+    mileage: initialData?.mileage,
+    color: initialData?.color,
+    images: initialData?.images[0],
+    overview: initialData?.overview,
+    basePrice: initialData?.basePrice,
+    fuelType: initialData?.fuelType,
+    passengerCapacity: initialData?.passengerCapacity,
+    location: initialData?.location,
+    plateNo: initialData?.plateNo,
+    chassisNo: initialData?.chassisNo,
+    status: initialData?.status,
+    owner: initialData?.owner,
+    vehicleType: initialData?.vehicleType,
+    driverId: initialData?.driverId,
+    brandId: 'sgd',
+  };
+  const title = initialData ? 'Update Vehicle' : 'Create Vehicle';
+  const action = initialData ? 'Save changes' : 'Create Vehicle';
   const form = useForm<VehicleFormValues>({
     resolver: zodResolver(formSchema),
+    defaultValues: defaultValues,
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-  function onSubmit(values: VehicleFormValues) {}
+  function onSubmit(values: VehicleFormValues) {
+    console.log(values);
+    if (initialData) {
+      console.log('update a vehicle');
+    } else {
+      console.log('create a vehicle');
+    }
+  }
   return (
-    <div className="p-4 w-2/3 mx-auto">
-      <h3 className="text-2xl pb-4 mb-10 border-b-2">Create Vehicele</h3>
+    <>
+      <h3 className="text-2xl pb-4 mb-10 border-b-2 font-bold">{title}</h3>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="images"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <ImageUpload
+                    value={field.value ? [field.value] : []}
+                    onChange={url => field.onChange(url)}
+                    onRemove={() => field.onChange('')}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <FormField
-              control={form.control}
-              name="images"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Images</FormLabel>
-                  <FormControl>
-                    <Input type="file" placeholder="upload Image" {...field} />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <FormField
               control={form.control}
               name="vehicleId"
@@ -379,10 +429,10 @@ const VehicleForm = () => {
               )}
             />
           </div>
-          <Button type="submit">Create Vehicle</Button>
+          <Button type="submit">{action}</Button>
         </form>
       </Form>
-    </div>
+    </>
   );
 };
 
