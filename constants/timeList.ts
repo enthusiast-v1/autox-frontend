@@ -23,5 +23,4 @@ export const times = [
   { id: '22', time: '9:00 PM' },
   { id: '23', time: '10:00 PM' },
   { id: '24', time: '11:00 PM' },
-  { id: '25', time: '12:00 PM' },
 ];

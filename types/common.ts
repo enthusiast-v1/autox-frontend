@@ -54,3 +54,8 @@ export type TSideNavItemsProps = {
     | null
     | undefined;
 }[];
+
+export type User = {
+  id: string;
+  role: string;
+};

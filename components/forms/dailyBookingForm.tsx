@@ -37,6 +37,18 @@ import {
 import { times } from '@/constants/timeList';
 import { cn } from '@/lib/utils';
 import { CalendarIcon } from 'lucide-react';
+import { Checkbox } from '../ui/checkbox';
+
+const items = [
+  {
+    id: 'round',
+    label: 'Round trip',
+  },
+  {
+    id: 'self',
+    label: 'Self drive',
+  },
+] as const;
 
 const formSchema = z.object({
   pickUpLocation: z.string({ required_error: '' }),
@@ -46,7 +58,7 @@ const formSchema = z.object({
 
   dropOffTime: z.string({ required_error: '' }),
   vehicle: z.string({ required_error: '' }),
-  driverRequired: z.string({ required_error: '' }),
+  customizedOptions: z.array(z.string().optional()).optional(),
 
   pickUpDate: z
     .date({ required_error: '' })
@@ -70,19 +82,12 @@ const DailyBookingForm = () => {
 
   const form = useForm<dailyBookingFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      pickUpLocation: undefined,
-      dropOffLocation: undefined,
-      pickUpDate: undefined,
-      dropOffDate: undefined,
-      pickUpTime: undefined,
-      dropOffTime: undefined,
-      driverRequired: 'driver',
-    },
   });
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: dailyBookingFormValues) => {
     setLoading(true);
+
+    console.log(data);
 
     // if (initialData) {
     //   const res: any = await updateProduct({ id, data });
@@ -112,7 +117,10 @@ const DailyBookingForm = () => {
   return (
     <div className="bg-white rounded-md p-4">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full h-48 px-4 py-2 md:h-full overflow-auto"
+        >
           <div className="grid md:grid-cols-7 gap-2 md:gap-4">
             <div className="col-span-2 space-y-[6px]">
               <FormField
@@ -227,7 +235,7 @@ const DailyBookingForm = () => {
               />
             </div>
 
-            <div className="col-span-1 items-center space-y-2">
+            <div className="col-span-2 md:col-span-1 items-center space-y-2">
               <FormField
                 control={form.control}
                 name="pickUpTime"
@@ -263,7 +271,7 @@ const DailyBookingForm = () => {
                 name="dropOffTime"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Drop-off date</FormLabel>
+                    <FormLabel>Drop-off time</FormLabel>
                     <Select
                       disabled={loading}
                       onValueChange={field.onChange}
@@ -320,26 +328,50 @@ const DailyBookingForm = () => {
 
               <FormField
                 control={form.control}
-                name="driverRequired"
-                render={({ field }) => (
+                name="customizedOptions"
+                render={() => (
                   <FormItem>
-                    <FormLabel>Cutomized option</FormLabel>
-                    <Select
-                      disabled={loading}
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue defaultValue={field.value} />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="driver">Need driver</SelectItem>
-                        <SelectItem value="self">Self drive</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <div className="mb-4">
+                      <FormLabel>Customized options</FormLabel>
+                    </div>
+                    <div className="flex justify-start items-center gap-2 ">
+                      {items?.map(item => (
+                        <FormField
+                          key={item.id}
+                          control={form.control}
+                          name="customizedOptions"
+                          render={({ field }) => {
+                            return (
+                              <FormItem
+                                key={item.id}
+                                className="flex flex-row items-start space-x-3 space-y-0"
+                              >
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(item.id)}
+                                    onCheckedChange={checked => {
+                                      return checked
+                                        ? field.onChange([
+                                            ...(field?.value || []),
+                                            item.id,
+                                          ])
+                                        : field.onChange(
+                                            field.value?.filter(
+                                              value => value !== item.id,
+                                            ),
+                                          );
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="font-normal">
+                                  {item.label}
+                                </FormLabel>
+                              </FormItem>
+                            );
+                          }}
+                        />
+                      ))}
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -347,7 +379,11 @@ const DailyBookingForm = () => {
             </div>
           </div>
           <div className="flex justify-end mt-6">
-            <Button disabled={loading} className="w-[27%]" type="submit">
+            <Button
+              disabled={loading}
+              className="w-full md:w-[27%]"
+              type="submit"
+            >
               {loading ? (
                 <>
                   Book Now

@@ -5,11 +5,7 @@ import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 
-type NavItemsProps = {
-  onClose: () => void;
-};
-
-export function NavItems({ onClose }: NavItemsProps) {
+export function NavItems() {
   const pathname = usePathname();
 
   const routes = [
@@ -29,7 +25,6 @@ export function NavItems({ onClose }: NavItemsProps) {
     <div className="flex flex-col  md:flex-row md:items-center space-y-1 md:space-y-0 px-2 md:px-0 pb-3 md:pb-0 mt-0 md:mt-2 pt-2 md:pt-0 md:space-x-[4px] mx-2 ">
       {routes.map(route => (
         <Link
-          onClick={onClose}
           key={route.href}
           href={route.href}
           className={cn(

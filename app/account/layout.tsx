@@ -3,12 +3,12 @@
 import SecondaryNavBar from '@/components/secondaryNavBar';
 import SideBar from '@/components/sideBar';
 import accountNavItems from '@/constants/accountNavItems';
-import { getUserInfo } from '@/services/auth.service';
+import { getClientUserInfo } from '@/services/auth.service';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
 const AccountLayout = ({ children }: { children: React.ReactNode }) => {
-  const user = getUserInfo();
+  const user = getClientUserInfo();
 
   if (!user) {
     redirect('/login');

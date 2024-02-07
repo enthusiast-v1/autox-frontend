@@ -2,7 +2,7 @@
 
 import { authKey } from '@/constants/authKey';
 import { useGetProfileQuery } from '@/redux/api/profileApi';
-import { getUserInfo, removeUserInfo } from '@/services/auth.service';
+import { getClientUserInfo, removeUserInfo } from '@/services/auth.service';
 import { LayoutDashboard, LogOut, Settings, User } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -21,11 +21,11 @@ import {
 } from './ui/dropdown-menu';
 
 export default function UserProfile() {
-  const user = getUserInfo();
-
-  const { data } = useGetProfileQuery(user?.id);
-
   const router = useRouter();
+
+  const { id } = getClientUserInfo();
+
+  const { data } = useGetProfileQuery(id);
 
   const handleLogout = () => {
     removeUserInfo(authKey);

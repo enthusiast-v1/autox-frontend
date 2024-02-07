@@ -4,7 +4,7 @@ export const profileApi = baseApi.injectEndpoints({
   endpoints: build => ({
     getProfile: build.query({
       query: id => ({
-        url: `/profile/${id}`,
+        url: `/profiles/${id}`,
         method: 'GET',
       }),
     }),
