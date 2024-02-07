@@ -1,12 +1,14 @@
+'use client';
+
 import SecondaryNavBar from '@/components/secondaryNavBar';
-import { authKey } from '@/constants/authKey';
-import { getCookie } from 'cookies-next';
-import { cookies } from 'next/headers';
+import SideBar from '@/components/sideBar';
+import accountNavItems from '@/constants/accountNavItems';
+import { getClientUserInfo } from '@/services/auth.service';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
 const AccountLayout = ({ children }: { children: React.ReactNode }) => {
-  const user = getCookie(authKey, { cookies });
+  const user = getClientUserInfo();
 
   if (!user) {
     redirect('/login');
@@ -15,9 +17,7 @@ const AccountLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="max-w-7xl mx-auto">
       <SecondaryNavBar />
-      {children}
-
-      {/* <SideBar sideNavItems={accountNavItems('customer')}></SideBar> */}
+      <SideBar sideNavItems={accountNavItems('customer')}>{children}</SideBar>
     </div>
   );
 };

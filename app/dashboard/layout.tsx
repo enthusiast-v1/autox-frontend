@@ -1,17 +1,19 @@
+'use client';
+
 import { redirect } from 'next/navigation';
 import React from 'react';
 
 import SecondaryNavBar from '@/components/secondaryNavBar';
-import { authKey } from '@/constants/authKey';
-import { getCookie } from 'cookies-next';
-import { cookies } from 'next/headers';
+import SideBar from '@/components/sideBar';
+import dashboardNavItems from '@/constants/dashboardNavItems';
+import { getClientUserInfo } from '@/services/auth.service';
 
-export default function SetupLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const user = getCookie(authKey, { cookies });
+  const user = getClientUserInfo();
 
   if (!user) {
     redirect('/login');
@@ -20,10 +22,10 @@ export default function SetupLayout({
   return (
     <div className="max-w-7xl mx-auto">
       <SecondaryNavBar />
-      {children}
-      {/* <SideBar sideNavItems={dashboardNavItems('super_admin')}>
-       
-      </SideBar> */}
+
+      <SideBar sideNavItems={dashboardNavItems('super_admin')}>
+        {children}
+      </SideBar>
     </div>
   );
 }

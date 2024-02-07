@@ -1,37 +1,10 @@
-import { authKey } from '@/constants/authKey';
-import { getBaseUrl } from '@/helpers/baseUrl';
-import { CustomJwtPayload } from '@/types/common';
-import { decodedToken } from '@/utils/jwtDecode';
-import { getCookie } from 'cookies-next';
 import { Bell, Search } from 'lucide-react';
-import { cookies } from 'next/headers';
 import Link from 'next/link';
 import logo from '../assets/logo.png';
 import CustomImage from './customImage';
 import UserProfile from './userProfile';
 
-async function getUser(id: string) {
-  const res = await fetch(`${getBaseUrl()}/profile/${id}`, {
-    next: {
-      revalidate: 60,
-    },
-  });
-  if (!res.ok) {
-    throw new Error('Failed to fetch data');
-  }
-  return await res.json();
-}
-
 const SecondaryNavBar = async () => {
-  let data = {};
-
-  const authToken = getCookie(authKey, { cookies });
-
-  if (authToken) {
-    const user = decodedToken(authToken as string) as CustomJwtPayload;
-
-    data = await getUser(user.id);
-  }
   return (
     <nav className="bg-black border-b h-14 flex items-center justify-between px-6">
       <Link href={'/'}>
@@ -52,7 +25,7 @@ const SecondaryNavBar = async () => {
             0
           </span>
         </div>
-        <UserProfile data={data} />
+        <UserProfile />
       </div>
     </nav>
   );
