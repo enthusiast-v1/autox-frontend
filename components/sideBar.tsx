@@ -17,6 +17,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { TSideNavItemsProps } from '@/types/common';
+import { setCookie } from 'cookies-next';
 import { usePathname } from 'next/navigation';
 
 type SideBarProps = {
@@ -35,7 +36,7 @@ const SideBar = ({ children, sideNavItems }: SideBarProps) => {
     <TooltipProvider delayDuration={0}>
       <ResizablePanelGroup
         direction="horizontal"
-        className="h-full min-h-[95vh] items-stretch"
+        className="h-full min-h-[95vh] items-stretch relative"
       >
         <ResizablePanel
           defaultSize={defaultLayout[0]}
@@ -44,11 +45,11 @@ const SideBar = ({ children, sideNavItems }: SideBarProps) => {
           minSize={15}
           onCollapse={() => {
             setIsCollapsed(true);
-            document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(true)}`;
+            setCookie('resizable-panels:collapsed', true);
           }}
           onExpand={() => {
             setIsCollapsed(false);
-            document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(false)}`;
+            setCookie('resizable-panels:collapsed', false);
           }}
           className={cn(
             'max-w-[30%] lg:max-w-[16%] bg-black',
@@ -130,7 +131,7 @@ const SideBar = ({ children, sideNavItems }: SideBarProps) => {
         <ResizablePanel
           defaultSize={defaultLayout[1]}
           minSize={30}
-          className="p-4"
+          className="p-4 rounded-lg"
         >
           {children}
         </ResizablePanel>

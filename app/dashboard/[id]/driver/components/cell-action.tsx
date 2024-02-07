@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { AlertModal } from '@/components/ui/alertModal';
+import { AlertModal } from '@/components/modals/alertModal';
 import { Driver } from './columns';
 
 type CellActionProps = {
@@ -23,13 +23,15 @@ type CellActionProps = {
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [open, setOpen] = useState(false);
 
   //   const [deleteProduct] = useDeleteProductMutation();
 
-  const onConfirm: () => Promise<void> = async () => {
+  const onDelete: () => Promise<void> = async () => {
+    setLoading(true);
     console.log('delete');
   };
   return (
@@ -37,7 +39,8 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={onConfirm}
+        onConfirm={onDelete}
+        loading={loading}
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

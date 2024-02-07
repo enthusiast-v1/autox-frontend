@@ -19,59 +19,43 @@ import {
 } from '@/components/ui/select';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+import { Heading } from '@/components/heading';
+import ImageUpload from '@/components/imageUpload';
+import { Separator } from '@/components/ui/separator';
+import { useGetProfileQuery } from '@/redux/api/profileApi';
+import { Loader2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import ImageUpload from '../imageUpload';
-import Heading from '../ui/heading';
-
-const initialData = {
-  id: 'd4b64e37-ff3b-4d62-89b6-2a25b7e2b6a1',
-  firstName: 'John',
-  lastName: 'Doe',
-  gender: 'Male',
-  dateOfBirth: '20 july 2020',
-  address: '123 Main St, Cityville, State',
-  image:
-    'https://images.unsplash.com/photo-1481437642641-2f0ae875f836?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fG1lbnxlbnwwfHwwfHx8MA%3D%3D',
-  contactNo: '+1234567890',
-  emergContact: '+1987654321',
-  userId: '3b0d721b-d9b4-4b5a-9c90-5d430d0b0885',
-  createdAt: new Date('2024-02-05T12:34:56.789Z'),
-  updatedAt: new Date('2024-02-05T12:34:56.789Z'),
-};
 
 const formSchema = z.object({
-  firstName: z.string({ required_error: 'License no is required' }).min(1),
-  lastName: z.string({ required_error: 'Expire date is required' }).min(1),
-  gender: z.string({ required_error: 'Expire date is required' }).min(1),
-  dateOfBirth: z.string({ required_error: 'NID no is required' }).min(1),
-  address: z.string({ required_error: 'NID no is required' }).min(1),
-  image: z.string({ required_error: 'Status is required' }),
-  contactNo: z.string({ required_error: 'User id is required' }).min(1),
-  emergContact: z.string({ required_error: 'User id is required' }).min(1),
-  userId: z.string({ required_error: 'User id is required' }).min(1),
+  name: z.string({ required_error: 'Name is required' }),
+  image: z.string({ required_error: 'Image is required' }),
+  address: z.string({ required_error: 'Address is required' }),
+  contactNo: z.string({ required_error: 'User id is required' }),
+  gender: z.string({ required_error: 'Gender is required' }),
+  dateOfBirth: z.string({ required_error: 'Date is required' }),
+  emergContact: z.string({ required_error: 'Emergency no is required' }),
 });
 
 type ProfileFormValues = z.infer<typeof formSchema>;
 
 const ProfileForm = () => {
   const params = useParams();
+  const [loading, setLoading] = useState(false);
 
-  const { profileId } = params;
-  console.log(profileId);
-  const title = initialData ? 'Update Profile' : 'Create Profile';
-  const action = initialData ? 'Save changes' : 'Create';
+  const { id } = params;
+  const { data } = useGetProfileQuery(id);
 
   const defaultValues = {
-    firstName: initialData?.firstName,
-    lastName: initialData?.lastName,
-    gender: initialData?.gender,
-    dateOfBirth: initialData?.dateOfBirth,
-    address: initialData?.address,
-    image: initialData?.image,
-    contactNo: initialData?.contactNo,
-    emergContact: initialData?.emergContact,
+    name: data?.name,
+    image: data?.image,
+    address: data?.address,
+    contactNo: data?.contactNo,
+    gender: data?.gender,
+    dateOfBirth: data?.dateOfBirth,
+    emergContact: data?.emergContact,
   };
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(formSchema),
@@ -79,12 +63,23 @@ const ProfileForm = () => {
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-  function onSubmit(values: ProfileFormValues) {}
+  function onSubmit(values: ProfileFormValues) {
+    setLoading(false);
+
+    setLoading(false);
+  }
   return (
-    <>
-      <Heading title={title} />
+    <div className="p-2 md:p-6">
+      <Heading
+        title="Edit Profile"
+        description="Edit your profile information"
+      />
+      <Separator />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-8 border shadow-sm p-4 rounded-md"
+        >
           <FormField
             control={form.control}
             name="image"
@@ -104,12 +99,12 @@ const ProfileForm = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <FormField
               control={form.control}
-              name="firstName"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Frist Name</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="frist name" {...field} />
+                    <Input placeholder="Your name" {...field} />
                   </FormControl>
 
                   <FormMessage />
@@ -119,12 +114,12 @@ const ProfileForm = () => {
 
             <FormField
               control={form.control}
-              name="lastName"
+              name="address"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Last Name</FormLabel>
+                  <FormLabel>Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="last name" {...field} />
+                    <Input placeholder="Your address" {...field} />
                   </FormControl>
 
                   <FormMessage />
@@ -169,11 +164,11 @@ const ProfileForm = () => {
               name="dateOfBirth"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Date of Birthday</FormLabel>
+                  <FormLabel>Your birthday</FormLabel>
                   <FormControl>
                     <Input
                       type="datetime"
-                      placeholder="birth date"
+                      placeholder="Date of birth"
                       {...field}
                     />
                   </FormControl>
@@ -182,20 +177,7 @@ const ProfileForm = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Address</FormLabel>
-                  <FormControl>
-                    <Input placeholder="address" {...field} />
-                  </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="contactNo"
@@ -203,7 +185,7 @@ const ProfileForm = () => {
                 <FormItem>
                   <FormLabel>Contact Number</FormLabel>
                   <FormControl>
-                    <Input placeholder="contact number" {...field} />
+                    <Input placeholder="Your number" {...field} />
                   </FormControl>
 
                   <FormMessage />
@@ -215,24 +197,9 @@ const ProfileForm = () => {
               name="emergContact"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Emergency Contact</FormLabel>
+                  <FormLabel>Emergency contact no</FormLabel>
                   <FormControl>
-                    <Input placeholder="emergency contact" {...field} />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="userId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>User Id</FormLabel>
-                  <FormControl>
-                    <Input placeholder="user id" {...field} />
+                    <Input placeholder="Contact no" {...field} />
                   </FormControl>
 
                   <FormMessage />
@@ -240,10 +207,19 @@ const ProfileForm = () => {
               )}
             />
           </div>
-          <Button type="submit">{action}</Button>
+          <Button disabled={loading} type="submit">
+            {loading ? (
+              <>
+                {'Save changes'}
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              </>
+            ) : (
+              'Save changes'
+            )}
+          </Button>
         </form>
       </Form>
-    </>
+    </div>
   );
 };
 

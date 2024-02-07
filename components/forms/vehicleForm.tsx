@@ -22,8 +22,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { Heading } from '../heading';
 import ImageUpload from '../imageUpload';
-import Heading from '../ui/heading';
 
 const initialData = {
   vehicleId: 'V123',
@@ -147,7 +147,7 @@ const VehicleForm = () => {
   }
   return (
     <>
-      <Heading title={title} />
+      <Heading title={title} description="" />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField

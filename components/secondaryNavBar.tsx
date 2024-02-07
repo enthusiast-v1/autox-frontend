@@ -11,7 +11,7 @@ const SecondaryNavBar = () => {
   const { id } = getClientUserInfo();
 
   return (
-    <nav className="bg-black border-b h-14 flex items-center justify-between px-6">
+    <nav className="bg-black h-14 flex items-center justify-between px-6">
       <Link href={'/'}>
         <CustomImage
           src={logo}
