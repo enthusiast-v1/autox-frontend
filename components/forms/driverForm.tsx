@@ -21,6 +21,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import Heading from '../ui/heading';
 
 //dummy data
 const initialData = {
@@ -73,7 +74,7 @@ const DriverForm = () => {
   }
   return (
     <>
-      <h3 className="text-2xl pb-4 mb-10 border-b-2 font-bold">{title}</h3>
+      <Heading title={title} />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

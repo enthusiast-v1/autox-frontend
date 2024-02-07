@@ -32,7 +32,7 @@ const ChangePasswordFrom = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   function onSubmit(values: ChangePasswordFromValues) {}
   return (
-    <div className="p-4 w-2/3 mx-auto">
+    <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

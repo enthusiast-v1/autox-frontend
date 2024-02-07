@@ -1,3 +1,5 @@
+'use client';
+
 import SecondaryNavBar from '@/components/secondaryNavBar';
 import SideBar from '@/components/sideBar';
 import accountNavItems from '@/constants/accountNavItems';
@@ -8,7 +10,7 @@ import React from 'react';
 const AccountLayout = ({ children }: { children: React.ReactNode }) => {
   const user = getUserInfo();
 
-  if (user.role !== 'admin') {
+  if (!user) {
     redirect('/login');
   }
 
