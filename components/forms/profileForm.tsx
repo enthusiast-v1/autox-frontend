@@ -23,6 +23,7 @@ import { useParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import ImageUpload from '../imageUpload';
+import Heading from '../ui/heading';
 
 const initialData = {
   id: 'd4b64e37-ff3b-4d62-89b6-2a25b7e2b6a1',
@@ -80,28 +81,27 @@ const ProfileForm = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   function onSubmit(values: ProfileFormValues) {}
   return (
-    <div className="p-4 w-2/3 mx-auto">
-      <h3 className="text-2xl pb-4  mb-10 border-b-2">{title}</h3>
+    <>
+      <Heading title={title} />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="image"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <ImageUpload
+                    value={field.value ? [field.value] : []}
+                    onChange={url => field.onChange(url)}
+                    onRemove={() => field.onChange('')}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <FormField
-              control={form.control}
-              name="image"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <ImageUpload
-                      value={field.value ? [field.value] : []}
-                      onChange={url => field.onChange(url)}
-                      onRemove={() => field.onChange('')}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <FormField
               control={form.control}
               name="firstName"
@@ -131,21 +131,6 @@ const ProfileForm = () => {
                 </FormItem>
               )}
             />
-
-            {/* <FormField
-              control={form.control}
-              name="image"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>select profile image</FormLabel>
-                  <FormControl>
-                    <Input type="file" placeholder="image" {...field} />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
 
             <FormField
               control={form.control}
@@ -258,7 +243,7 @@ const ProfileForm = () => {
           <Button type="submit">{action}</Button>
         </form>
       </Form>
-    </div>
+    </>
   );
 };
 

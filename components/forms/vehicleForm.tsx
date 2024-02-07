@@ -23,6 +23,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import ImageUpload from '../imageUpload';
+import Heading from '../ui/heading';
 
 const initialData = {
   vehicleId: 'V123',
@@ -146,7 +147,7 @@ const VehicleForm = () => {
   }
   return (
     <>
-      <h3 className="text-2xl pb-4 mb-10 border-b-2 font-bold">{title}</h3>
+      <Heading title={title} />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
