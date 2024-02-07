@@ -20,8 +20,10 @@ import { toast } from 'sonner';
 import GoogleIcon from '@/components/icons/google';
 import { useUserLoginMutation } from '@/redux/api/authApi';
 import { storeUserInfo } from '@/services/auth.service';
+import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -32,6 +34,7 @@ import {
 } from '../../../components/ui/card';
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const [userLogin] = useUserLoginMutation();
@@ -52,6 +55,8 @@ const Login = () => {
   });
 
   async function onSubmit(loginData: z.infer<typeof FormSchema>) {
+    setLoading(true);
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const res: any = await userLogin(loginData);
 
@@ -64,6 +69,8 @@ const Login = () => {
         description: 'Please, try again!',
       });
     }
+
+    setLoading(false);
   }
 
   return (
@@ -109,7 +116,16 @@ const Login = () => {
                 )}
               />
 
-              <Button className="w-full">Login</Button>
+              <Button disabled={loading} className="w-full">
+                {loading ? (
+                  <>
+                    {'Login'}
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  </>
+                ) : (
+                  'Login'
+                )}
+              </Button>
             </CardContent>
           </form>
         </Form>

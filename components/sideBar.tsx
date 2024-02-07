@@ -51,16 +51,16 @@ const SideBar = ({ children, sideNavItems }: SideBarProps) => {
             document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(false)}`;
           }}
           className={cn(
-            'max-w-[30%] lg:max-w-[16%]',
+            'max-w-[30%] lg:max-w-[16%] bg-black',
             isCollapsed &&
               'min-w-[50px] transition-all duration-300 ease-in-out',
           )}
         >
           <div
             data-collapsed={isCollapsed}
-            className=" group justify-between flex flex-col gap-4 py-2 data-[collapsed=true]:py-2"
+            className=" mt-2 group justify-between flex flex-col gap-4 py-2 data-[collapsed=true]:py-2"
           >
-            <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
+            <nav className="grid gap-2 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
               {sideNavItems?.map(item =>
                 isCollapsed ? (
                   <Tooltip key={item.key} delayDuration={0}>
@@ -69,7 +69,7 @@ const SideBar = ({ children, sideNavItems }: SideBarProps) => {
                         href={item.link}
                         className={cn(
                           buttonVariants({
-                            variant: `${pathname === item.link ? 'default' : 'ghost'}`,
+                            variant: `${pathname === item.link ? 'outline' : 'default'}`,
                             size: 'icon',
                           }),
                           'h-9 w-9',
@@ -99,7 +99,7 @@ const SideBar = ({ children, sideNavItems }: SideBarProps) => {
                     href={item.link}
                     className={cn(
                       buttonVariants({
-                        variant: `${pathname === item.link ? 'default' : 'ghost'}`,
+                        variant: `${pathname === item.link ? 'outline' : 'default'}`,
                         size: 'sm',
                       }),
                       item.variant === 'default' &&

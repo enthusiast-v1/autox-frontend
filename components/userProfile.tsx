@@ -20,17 +20,18 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 
-export default function UserProfile() {
+export default function UserProfile({ id }: { id: string }) {
   const router = useRouter();
 
-  const { id } = getClientUserInfo();
+  const user = getClientUserInfo();
 
-  const { data } = useGetProfileQuery(id);
+  const { data } = useGetProfileQuery(user.id);
 
   const handleLogout = () => {
     removeUserInfo(authKey);
-    toast.success('Logout successfully');
     router.refresh();
+    router.push('/');
+    toast.success('Logout successfully');
   };
 
   return (
@@ -55,13 +56,13 @@ export default function UserProfile() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link href={`/account`}>
+          <Link href={`/account/${id}`}>
             <DropdownMenuItem>
               <Settings className="mr-2 h-4 w-4" />
               <span>Manage Account</span>
             </DropdownMenuItem>
           </Link>
-          <Link href={`/dashboard`}>
+          <Link href={`/dashboard/${id}`}>
             <DropdownMenuItem>
               <LayoutDashboard className="mr-2 h-4 w-4" />
               <span>Dashboard</span>

@@ -4,7 +4,12 @@ import {
   SheetContent,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import { authKey } from '@/constants/authKey';
+import { CustomJwtPayload } from '@/types/common';
+import { decodedToken } from '@/utils/jwtDecode';
+import { getCookie } from 'cookies-next';
 import { AlignRight } from 'lucide-react';
+import { cookies } from 'next/headers';
 import Link from 'next/link';
 import logo from '../assets/logo.png';
 import CustomImage from './customImage';
@@ -12,6 +17,15 @@ import { NavItems } from './navItems';
 import UserProfile from './userProfile';
 
 const NavBar = async () => {
+  let id = '';
+
+  const authToken = getCookie(authKey, { cookies });
+  if (authToken) {
+    const decodedData = decodedToken(authToken) as CustomJwtPayload;
+
+    id = decodedData.id;
+  }
+
   return (
     <nav className="bg-black flex h-16 px-4 items-center justify-between">
       <div className="flex items-stretch justify-start ml-2">
@@ -30,7 +44,7 @@ const NavBar = async () => {
       </div>
 
       <div className="ml-auto flex items-center space-x-4 mr-2">
-        <UserProfile />
+        <UserProfile id={id} />
         <Sheet>
           <SheetTrigger asChild className="md:hidden">
             <AlignRight className="w-6 h-6 text-white" />

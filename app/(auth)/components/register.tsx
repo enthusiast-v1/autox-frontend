@@ -1,7 +1,6 @@
 'use client';
 
 import ImageUpload from '@/components/imageUpload';
-import Loader from '@/components/loader';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -15,6 +14,7 @@ import { Input } from '@/components/ui/input';
 import { useUserRegisterMutation } from '@/redux/api/authApi';
 import { storeUserInfo } from '@/services/auth.service';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -233,7 +233,7 @@ const Register = () => {
             {loading ? (
               <>
                 {'Register'}
-                <Loader />
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               </>
             ) : (
               'Register'

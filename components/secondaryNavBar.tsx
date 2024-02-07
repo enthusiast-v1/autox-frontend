@@ -1,10 +1,15 @@
+'use client';
+
+import { getClientUserInfo } from '@/services/auth.service';
 import { Bell, Search } from 'lucide-react';
 import Link from 'next/link';
 import logo from '../assets/logo.png';
 import CustomImage from './customImage';
 import UserProfile from './userProfile';
 
-const SecondaryNavBar = async () => {
+const SecondaryNavBar = () => {
+  const { id } = getClientUserInfo();
+
   return (
     <nav className="bg-black border-b h-14 flex items-center justify-between px-6">
       <Link href={'/'}>
@@ -25,7 +30,7 @@ const SecondaryNavBar = async () => {
             0
           </span>
         </div>
-        <UserProfile />
+        <UserProfile id={id} />
       </div>
     </nav>
   );

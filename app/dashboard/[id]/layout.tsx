@@ -10,9 +10,14 @@ import { getClientUserInfo } from '@/services/auth.service';
 
 export default function DashboardLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: {
+    id: string;
+  };
 }) {
+  const role = 'super_admin';
   const user = getClientUserInfo();
 
   if (!user) {
@@ -23,7 +28,7 @@ export default function DashboardLayout({
     <div className="max-w-7xl mx-auto">
       <SecondaryNavBar />
 
-      <SideBar sideNavItems={dashboardNavItems('super_admin')}>
+      <SideBar sideNavItems={dashboardNavItems({ role, params })}>
         {children}
       </SideBar>
     </div>
