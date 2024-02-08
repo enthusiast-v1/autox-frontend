@@ -1,5 +1,6 @@
 'use client';
 
+import { Heading } from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/ui/dataTable';
 import { Separator } from '@/components/ui/separator';
@@ -99,7 +100,7 @@ const data = [
   },
 ];
 
-export const DriverTable = () => {
+export const DriverClient = () => {
   const router = useRouter();
 
   const formattedDrivers: Driver[] = data.map(item => ({
@@ -113,19 +114,24 @@ export const DriverTable = () => {
   }));
 
   return (
-    <>
+    <div className="m-4">
       <div className="flex items-center justify-between">
-        <div>
-          {' '}
-          <h3 className="text-2xl font-bold">{`Driver(${formattedDrivers?.length})`}</h3>
-          <p>manage driver</p>
-        </div>
+        <Heading
+          title={`Driver (${formattedDrivers?.length})`}
+          description="Manage your drivers"
+        />
         <Button onClick={() => router.push(`/dashboard/driver/new`)}>
           <Plus className="mr-2 h-4 w-4 " /> Add New
         </Button>
       </div>
       <Separator />
-      <DataTable searchKey="email" columns={columns} data={formattedDrivers} />
-    </>
+      <div className="p-6 border rounded-md shadow-sm">
+        <DataTable
+          searchKey="status"
+          columns={columns}
+          data={formattedDrivers}
+        />
+      </div>
+    </div>
   );
 };

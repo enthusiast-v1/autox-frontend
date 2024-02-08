@@ -8,6 +8,8 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 
 const AccountLayout = ({ children }: { children: React.ReactNode }) => {
+  const role = 'customer';
+
   const user = getClientUserInfo();
 
   if (!user) {
@@ -17,7 +19,7 @@ const AccountLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="max-w-7xl mx-auto">
       <SecondaryNavBar />
-      <SideBar sideNavItems={accountNavItems('customer')}>{children}</SideBar>
+      <SideBar sideNavItems={accountNavItems({ role })}>{children}</SideBar>
     </div>
   );
 };

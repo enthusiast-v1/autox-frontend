@@ -4,12 +4,13 @@ import React, { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
+import { Loader2 } from 'lucide-react';
 
 type AlertModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  loading?: boolean;
+  loading: boolean;
 };
 
 export const AlertModal: React.FC<AlertModalProps> = ({
@@ -40,8 +41,15 @@ export const AlertModal: React.FC<AlertModalProps> = ({
           Cancel
         </Button>
 
-        <Button disabled={loading} onClick={onConfirm}>
-          {loading ? <>Continue</> : 'Delete'}
+        <Button disabled={loading} variant="destructive" onClick={onConfirm}>
+          {loading ? (
+            <>
+              Continue
+              <Loader2 className="ml-2 h-4 w-4 animate-spin" />
+            </>
+          ) : (
+            'Continue'
+          )}
         </Button>
       </div>
     </Modal>

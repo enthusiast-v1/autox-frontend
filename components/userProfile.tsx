@@ -23,14 +23,15 @@ import {
 export default function UserProfile() {
   const router = useRouter();
 
-  const { id } = getClientUserInfo();
+  const user = getClientUserInfo();
 
-  const { data } = useGetProfileQuery(id);
+  const { data } = useGetProfileQuery(user.id);
 
   const handleLogout = () => {
     removeUserInfo(authKey);
-    toast.success('Logout successfully');
     router.refresh();
+    router.push('/');
+    toast.success('Logout successfully');
   };
 
   return (

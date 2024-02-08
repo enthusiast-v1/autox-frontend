@@ -1,11 +1,11 @@
-import { VehicleTable } from './components/vehicleTable';
+import { VehicleClient } from './components/client';
 
-const ManageVehicle = () => {
+const VehiclePage = () => {
   return (
     <div>
-      <VehicleTable />
+      <VehicleClient />
     </div>
   );
 };
 
-export default ManageVehicle;
+export default VehiclePage;

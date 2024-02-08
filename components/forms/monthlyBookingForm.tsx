@@ -89,7 +89,7 @@ const MonthlyBookingForm = () => {
     //   const res: any = await updateProduct({ id, data });
 
     //   if (res?.data?._id) {
-    //     router.push(`/${params.storeId}/products`);
+    //     router.push(`/`);
     //     toast.success('Product updated successfully');
     //   } else if (res?.error) {
     //     toast.error(res?.error?.message);
@@ -100,7 +100,7 @@ const MonthlyBookingForm = () => {
     //   const res: any = await createProduct(data);
 
     //   if (res?.data?._id) {
-    //     router.push(`/${params.storeId}/products`);
+    //     router.push(`/${}/products`);
     //     toast.success('Product created successfully');
     //   } else if (res?.error) {
     //     toast.error(res?.error?.message);

@@ -17,11 +17,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useParams } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import Heading from '../ui/heading';
+import { Heading } from '../../../../../components/heading';
 
 //dummy data
 const initialData = {
@@ -45,10 +47,13 @@ const formSchema = z.object({
 type DriverFormValues = z.infer<typeof formSchema>;
 
 const DriverForm = () => {
-  const params = useParams();
-  const { driverId } = params;
-  console.log(driverId);
-  const title = initialData ? 'Update Driver' : 'Create Driver';
+  const [loading, setLoading] = useState(false);
+
+  const title = initialData ? 'Edit driver' : 'Create driver';
+  const description = initialData
+    ? 'Update driver infomation'
+    : 'Add a new driver';
+
   const action = initialData ? 'Save changes' : 'Create';
 
   const defaultValues = {
@@ -65,18 +70,25 @@ const DriverForm = () => {
     defaultValues: defaultValues,
   });
   function onSubmit(values: DriverFormValues) {
+    setLoading(true);
     console.log(values);
     if (initialData) {
       console.log('update');
     } else {
       console.log('create');
     }
+
+    setLoading(false);
   }
   return (
-    <>
-      <Heading title={title} />
+    <div className="m-4">
+      <Heading title={title} description={description} />
+      <Separator />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-8 border shadow-sm p-6 rounded-md"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField
               control={form.control}
@@ -173,10 +185,19 @@ const DriverForm = () => {
               )}
             />
           </div>
-          <Button type="submit">{action}</Button>
+          <Button type="submit" disabled={loading}>
+            {loading ? (
+              <>
+                {action}
+                <Loader2 className="ml-2 h-4 w-4 animate-spin" />
+              </>
+            ) : (
+              action
+            )}
+          </Button>
         </form>
       </Form>
-    </>
+    </div>
   );
 };
 

@@ -1,5 +1,13 @@
+import { BookingClient } from './components/client';
+
 const ManageBookingPage = () => {
-  return <div>This is manage booking page</div>;
+  return (
+    <div>
+      <div>
+        <BookingClient />
+      </div>
+    </div>
+  );
 };
 
 export default ManageBookingPage;

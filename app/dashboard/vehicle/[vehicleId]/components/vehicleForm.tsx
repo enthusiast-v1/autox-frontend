@@ -1,5 +1,7 @@
 'use client';
 
+import { Heading } from '@/components/heading';
+import ImageUpload from '@/components/imageUpload';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -18,12 +20,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import ImageUpload from '../imageUpload';
-import Heading from '../ui/heading';
 
 const initialData = {
   vehicleId: 'V123',
@@ -111,6 +114,8 @@ const formSchema = z.object({
 type VehicleFormValues = z.infer<typeof formSchema>;
 
 const VehicleForm = () => {
+  const [loading, setLoading] = useState(false);
+
   const defaultValues = {
     vehicleId: initialData?.vehicleId,
     model: initialData?.model,
@@ -130,26 +135,38 @@ const VehicleForm = () => {
     driverId: initialData?.driverId,
     brandId: 'sgd',
   };
-  const title = initialData ? 'Update Vehicle' : 'Create Vehicle';
-  const action = initialData ? 'Save changes' : 'Create Vehicle';
+  const title = initialData ? 'Edit vehicle' : 'Create vehicle';
+  const description = initialData
+    ? 'Update vehicle infomation'
+    : 'Add a new vehicle';
+
+  const action = initialData ? 'Save changes' : 'Create';
+
   const form = useForm<VehicleFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues,
   });
 
   function onSubmit(values: VehicleFormValues) {
+    setLoading(true);
     console.log(values);
     if (initialData) {
       console.log('update a vehicle');
     } else {
       console.log('create a vehicle');
     }
+
+    setLoading(false);
   }
   return (
-    <>
-      <Heading title={title} />
+    <div className="m-4">
+      <Heading title={title} description={description} />
+      <Separator />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-8 border shadow-sm p-6 rounded-md"
+        >
           <FormField
             control={form.control}
             name="images"
@@ -430,10 +447,19 @@ const VehicleForm = () => {
               )}
             />
           </div>
-          <Button type="submit">{action}</Button>
+          <Button type="submit" disabled={loading}>
+            {loading ? (
+              <>
+                {action}
+                <Loader2 className="ml-2 h-4 w-4 animate-spin" />
+              </>
+            ) : (
+              action
+            )}
+          </Button>
         </form>
       </Form>
-    </>
+    </div>
   );
 };
 

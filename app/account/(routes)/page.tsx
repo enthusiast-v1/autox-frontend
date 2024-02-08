@@ -1,9 +1,11 @@
-const AccountPage = () => {
+import ProfileCard from './components/profileCard';
+
+const ProfilePage = () => {
   return (
-    <>
-      <div className="flex flex-col">Overview page</div>
-    </>
+    <div>
+      <ProfileCard />
+    </div>
   );
 };
 
-export default AccountPage;
+export default ProfilePage;

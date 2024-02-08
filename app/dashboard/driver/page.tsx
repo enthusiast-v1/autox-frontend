@@ -1,9 +1,9 @@
-import { DriverTable } from './components/driverTable';
+import { DriverClient } from './components/client';
 
 const ManageDriver = () => {
   return (
     <div>
-      <DriverTable />
+      <DriverClient />
     </div>
   );
 };

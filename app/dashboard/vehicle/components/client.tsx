@@ -1,12 +1,12 @@
 'use client';
-import { Plus } from 'lucide-react';
 
+import { Heading } from '@/components/heading';
 import { Button } from '@/components/ui/button';
-
 import { DataTable } from '@/components/ui/dataTable';
 import { Separator } from '@/components/ui/separator';
 import { formatDate } from 'date-fns';
-import { useRouter } from 'next/navigation';
+import { Plus } from 'lucide-react';
+import Link from 'next/link';
 import { Vehicle, columns } from './columns';
 
 const data = [
@@ -56,11 +56,9 @@ const data = [
   },
 ];
 
-export const VehicleTable = () => {
-  const router = useRouter();
+export const VehicleClient = () => {
   const formattedVehicles: Vehicle[] = data.map(item => ({
     id: item.id,
-    vehicleId: item.vehicleId,
     model: item.model,
     mileage: item.mileage,
     color: item.color,
@@ -76,24 +74,30 @@ export const VehicleTable = () => {
     owner: item.owner,
     vehicleType: item.vehicleType,
     brand: item.brand,
-    driverId: item.driverId,
     createdAt: formatDate(new Date(item?.createdAt), 'MMMM do, yyyy'),
   }));
 
   return (
-    <>
-      <div className="flex items-start justify-between">
-        <div>
-          {' '}
-          <h3 className="text-2xl font-bold">{`Vehicle(${formattedVehicles?.length})`}</h3>
-          <p>manage vehicle</p>
-        </div>
-        <Button onClick={() => router.push(`/dashboard/vehicle/new`)}>
-          <Plus className="mr-2 h-4 w-4 " /> Add New
-        </Button>
+    <div className="m-4">
+      <div className="flex items-center justify-between">
+        <Heading
+          title={`Vehicle (${formattedVehicles?.length})`}
+          description="Manage your vehicles"
+        />
+        <Link href={`/dashboard/vehicle/new`}>
+          <Button>
+            <Plus className="mr-2 h-4 w-4" /> Add New
+          </Button>
+        </Link>
       </div>
       <Separator />
-      <DataTable searchKey="owner" columns={columns} data={formattedVehicles} />
-    </>
+      <div className="p-6 border rounded-md shadow-sm">
+        <DataTable
+          searchKey="model"
+          columns={columns}
+          data={formattedVehicles}
+        />
+      </div>
+    </div>
   );
 };

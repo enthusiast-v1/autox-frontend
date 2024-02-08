@@ -40,9 +40,12 @@ export const columns: ColumnDef<Driver>[] = [
   },
   {
     accessorKey: 'status',
-    header: 'Status',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
   },
   {
+    accessorKey: 'Actions',
     id: 'actions',
     cell: ({ row }) => <CellAction data={row.original} />,
   },

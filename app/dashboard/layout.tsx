@@ -13,6 +13,7 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const role = 'super_admin';
   const user = getClientUserInfo();
 
   if (!user) {
@@ -23,9 +24,7 @@ export default function DashboardLayout({
     <div className="max-w-7xl mx-auto">
       <SecondaryNavBar />
 
-      <SideBar sideNavItems={dashboardNavItems('super_admin')}>
-        {children}
-      </SideBar>
+      <SideBar sideNavItems={dashboardNavItems({ role })}>{children}</SideBar>
     </div>
   );
 }

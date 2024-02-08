@@ -1,12 +1,14 @@
+'use client';
+
 import { Bell, Search } from 'lucide-react';
 import Link from 'next/link';
 import logo from '../assets/logo.png';
 import CustomImage from './customImage';
 import UserProfile from './userProfile';
 
-const SecondaryNavBar = async () => {
+const SecondaryNavBar = () => {
   return (
-    <nav className="bg-black border-b h-14 flex items-center justify-between px-6">
+    <nav className="bg-black h-14 flex items-center justify-between px-6">
       <Link href={'/'}>
         <CustomImage
           src={logo}

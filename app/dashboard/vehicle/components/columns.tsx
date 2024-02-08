@@ -28,32 +28,31 @@ export type Vehicle = {
 
 export const columns: ColumnDef<Vehicle>[] = [
   {
-    accessorKey: 'id',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Model" />
-    ),
-  },
-  {
     accessorKey: 'model',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Model" />
     ),
   },
   {
+    accessorKey: 'brand',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Brand" />
+    ),
+  },
+  {
     accessorKey: 'color',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="color" />
+      <DataTableColumnHeader column={column} title="Color" />
     ),
   },
   {
     accessorKey: 'owner',
-    header: 'Owner',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Owner" />
+    ),
   },
   {
-    accessorKey: 'brand',
-    header: 'Brand',
-  },
-  {
+    accessorKey: 'Actions',
     id: 'actions',
     cell: ({ row }) => <CellAction data={row.original} />,
   },

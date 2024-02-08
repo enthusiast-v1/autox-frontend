@@ -17,6 +17,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { TSideNavItemsProps } from '@/types/common';
+import { setCookie } from 'cookies-next';
 import { usePathname } from 'next/navigation';
 
 type SideBarProps = {
@@ -35,7 +36,7 @@ const SideBar = ({ children, sideNavItems }: SideBarProps) => {
     <TooltipProvider delayDuration={0}>
       <ResizablePanelGroup
         direction="horizontal"
-        className="h-full min-h-[95vh] items-stretch"
+        className="h-full min-h-[95vh] items-stretch relative"
       >
         <ResizablePanel
           defaultSize={defaultLayout[0]}
@@ -44,23 +45,23 @@ const SideBar = ({ children, sideNavItems }: SideBarProps) => {
           minSize={15}
           onCollapse={() => {
             setIsCollapsed(true);
-            document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(true)}`;
+            setCookie('resizable-panels:collapsed', true);
           }}
           onExpand={() => {
             setIsCollapsed(false);
-            document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(false)}`;
+            setCookie('resizable-panels:collapsed', false);
           }}
           className={cn(
-            'max-w-[30%] lg:max-w-[16%]',
+            'max-w-[30%] lg:max-w-[16%] bg-black',
             isCollapsed &&
               'min-w-[50px] transition-all duration-300 ease-in-out',
           )}
         >
           <div
             data-collapsed={isCollapsed}
-            className=" group justify-between flex flex-col gap-4 py-2 data-[collapsed=true]:py-2"
+            className=" mt-2 group justify-between flex flex-col gap-4 py-2 data-[collapsed=true]:py-2"
           >
-            <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
+            <nav className="grid gap-2 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
               {sideNavItems?.map(item =>
                 isCollapsed ? (
                   <Tooltip key={item.key} delayDuration={0}>
@@ -69,7 +70,7 @@ const SideBar = ({ children, sideNavItems }: SideBarProps) => {
                         href={item.link}
                         className={cn(
                           buttonVariants({
-                            variant: `${pathname === item.link ? 'default' : 'ghost'}`,
+                            variant: `${pathname === item.link ? 'outline' : 'default'}`,
                             size: 'icon',
                           }),
                           'h-9 w-9',
@@ -99,7 +100,7 @@ const SideBar = ({ children, sideNavItems }: SideBarProps) => {
                     href={item.link}
                     className={cn(
                       buttonVariants({
-                        variant: `${pathname === item.link ? 'default' : 'ghost'}`,
+                        variant: `${pathname === item.link ? 'outline' : 'default'}`,
                         size: 'sm',
                       }),
                       item.variant === 'default' &&
@@ -130,7 +131,7 @@ const SideBar = ({ children, sideNavItems }: SideBarProps) => {
         <ResizablePanel
           defaultSize={defaultLayout[1]}
           minSize={30}
-          className="p-4"
+          className="p-4 rounded-lg"
         >
           {children}
         </ResizablePanel>

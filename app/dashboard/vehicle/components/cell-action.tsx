@@ -2,11 +2,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
-import { Edit, MoreHorizontal, Trash } from 'lucide-react';
+import { Edit, FileText, MoreHorizontal, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
-import { AlertModal } from '@/components/ui/alertModal';
+import { AlertModal } from '@/components/modals/alertModal';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -25,9 +25,10 @@ type CellActionProps = {
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter();
 
+  const [loading, isLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const onConfirm: () => Promise<void> = async () => {
+  const onDelete: () => Promise<void> = async () => {
     console.log('delete');
   };
 
@@ -36,7 +37,8 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={onConfirm}
+        onConfirm={onDelete}
+        loading={loading}
       />
 
       <AlertDialog />
@@ -50,7 +52,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/vehicle/${data.id}`)}
+            onClick={() => router.push(`/dashboard/vehicle/details`)}
+          >
+            <FileText className="mr-2 h-4 w-4" /> Details
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => router.push(`/dashboard/vehicle/${data?.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>

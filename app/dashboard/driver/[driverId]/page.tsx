@@ -1,4 +1,4 @@
-import DriverForm from '@/components/forms/driverForm';
+import DriverForm from './components/driverForm';
 
 const Driver = () => {
   return (
