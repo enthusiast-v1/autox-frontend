@@ -1,16 +1,8 @@
 import { TSideNavItemsProps } from '@/types/common';
-import { CalendarClock, Car, History, Settings, User } from 'lucide-react';
+import { Settings, User } from 'lucide-react';
 import { USER_ROLE } from './role';
 
-const accountNavItems = ({
-  role,
-  params,
-}: {
-  role: string;
-  params: { id: string };
-}) => {
-  const { id } = params;
-
+const accountNavItems = ({ role }: { role: string }) => {
   const defaultItems: TSideNavItemsProps = [
     // {
     //   title: 'Overview',
@@ -23,7 +15,7 @@ const accountNavItems = ({
     {
       title: 'Profile',
       label: '',
-      link: `/account/${id}`,
+      link: `/account`,
       key: 'profile',
       icon: User,
       variant: 'ghost',
@@ -31,7 +23,7 @@ const accountNavItems = ({
     // {
     //   title: 'Payments',
     //   label: '',
-    //   link: `/account/${id}/payments`,
+    //   link: `/account/payments`,
     //   key: 'payments',
     //   icon: CreditCard,
     //   variant: 'ghost',
@@ -43,31 +35,31 @@ const accountNavItems = ({
     // {
     //   title: 'Coupons',
     //   label: '',
-    //   link: `/account/${id}/coupons`,
+    //   link: `/account/coupons`,
     //   key: 'coupons',
     //   icon: Tag,
     //   variant: 'ghost',
     // },
-    {
-      title: 'Bookings',
-      label: '',
-      link: `/account/${id}/bookings`,
-      key: 'bookings',
-      icon: CalendarClock,
-      variant: 'ghost',
-    },
-    {
-      title: 'Trip History',
-      label: '',
-      link: `/account/${id}/history`,
-      key: 'history',
-      icon: History,
-      variant: 'ghost',
-    },
+    // {
+    //   title: 'Bookings',
+    //   label: '',
+    //   link: `/account/bookings`,
+    //   key: 'bookings',
+    //   icon: CalendarClock,
+    //   variant: 'ghost',
+    // },
+    // {
+    //   title: 'Trip History',
+    //   label: '',
+    //   link: `/account/history`,
+    //   key: 'history',
+    //   icon: History,
+    //   variant: 'ghost',
+    // },
     // {
     //   title: 'Reviews',
     //   label: '',
-    //   link: `/account/${id}/reviews`,
+    //   link: `/account/reviews`,
     //   key: 'reviews',
     //   icon: MessageSquare,
     //   variant: 'ghost',
@@ -75,7 +67,7 @@ const accountNavItems = ({
     {
       title: 'Settings',
       label: '',
-      link: `/account/${id}/settings`,
+      link: `/account/settings`,
       key: 'settings',
       icon: Settings,
       variant: 'ghost',
@@ -83,7 +75,7 @@ const accountNavItems = ({
     // {
     //   title: 'Help & feedback',
     //   label: '',
-    //   link: `/account/${id}/feedback`,
+    //   link: `/account/feedback`,
     //   key: 'feedback',
     //   icon: HelpCircle,
     //   variant: 'ghost',
@@ -92,26 +84,26 @@ const accountNavItems = ({
 
   const driverSidebarItems: TSideNavItemsProps = [
     ...defaultItems,
-    {
-      title: 'Trip Request',
-      label: '',
-      link: `/account/${id}/trip`,
-      key: 'trip',
-      icon: Car,
-      variant: 'ghost',
-    },
-    {
-      title: 'Trip History',
-      label: '',
-      link: `/account/${id}/history`,
-      key: 'history',
-      icon: History,
-      variant: 'ghost',
-    },
+    // {
+    //   title: 'Trip Request',
+    //   label: '',
+    //   link: `/account/trip`,
+    //   key: 'trip',
+    //   icon: Car,
+    //   variant: 'ghost',
+    // },
+    // {
+    //   title: 'Trip History',
+    //   label: '',
+    //   link: `/account/history`,
+    //   key: 'history',
+    //   icon: History,
+    //   variant: 'ghost',
+    // },
     // {
     //   title: 'Support',
     //   label: '',
-    //   link: `/account/${id}/support`,
+    //   link: `/account/support`,
     //   key: 'support',
     //   icon: PhoneForwarded,
     //   variant: 'ghost',
@@ -119,7 +111,7 @@ const accountNavItems = ({
     {
       title: 'Settings',
       label: '',
-      link: `/account/${id}/settings`,
+      link: `/account/settings`,
       key: 'settings',
       icon: Settings,
       variant: 'ghost',
@@ -132,7 +124,7 @@ const accountNavItems = ({
     {
       title: 'Settings',
       label: '',
-      link: `/account/${id}/settings`,
+      link: `/account/settings`,
       key: 'settings',
       icon: Settings,
       variant: 'ghost',

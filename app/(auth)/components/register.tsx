@@ -233,7 +233,7 @@ const Register = () => {
             {loading ? (
               <>
                 {'Register'}
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className="ml-2 h-4 w-4 animate-spin" />
               </>
             ) : (
               'Register'

@@ -2,20 +2,12 @@ import { TSideNavItemsProps } from '@/types/common';
 import { Car, KanbanSquare, LineChart, User } from 'lucide-react';
 import { USER_ROLE } from './role';
 
-const dashboardNavItems = ({
-  role,
-  params,
-}: {
-  role: string;
-  params: { id: string };
-}) => {
-  const { id } = params;
-
+const dashboardNavItems = ({ role }: { role: string }) => {
   const defaultItems: TSideNavItemsProps = [
     {
       title: 'Overview',
       label: '',
-      link: `/dashboard/${id}`,
+      link: `/dashboard`,
       key: 'overview',
       icon: LineChart,
       variant: 'ghost',
@@ -27,7 +19,7 @@ const dashboardNavItems = ({
     {
       title: 'Manage Booking',
       label: '',
-      link: `/dashboard/${id}/booking`,
+      link: `/dashboard/booking`,
       key: 'booking',
       icon: KanbanSquare,
       variant: 'ghost',
@@ -35,7 +27,7 @@ const dashboardNavItems = ({
     {
       title: 'Manage Driver',
       label: '',
-      link: `/dashboard/${id}/driver`,
+      link: `/dashboard/driver`,
       key: 'driver',
       icon: User,
       variant: 'ghost',
@@ -43,7 +35,7 @@ const dashboardNavItems = ({
     {
       title: 'Manage Vehicle',
       label: '',
-      link: `/dashboard/${id}/vehicle`,
+      link: `/dashboard/vehicle`,
       key: 'vehicle',
       icon: Car,
       variant: 'ghost',

@@ -20,7 +20,7 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 
-export default function UserProfile({ id }: { id: string }) {
+export default function UserProfile() {
   const router = useRouter();
 
   const user = getClientUserInfo();
@@ -56,13 +56,13 @@ export default function UserProfile({ id }: { id: string }) {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link href={`/account/${id}`}>
+          <Link href={`/account`}>
             <DropdownMenuItem>
               <Settings className="mr-2 h-4 w-4" />
               <span>Manage Account</span>
             </DropdownMenuItem>
           </Link>
-          <Link href={`/dashboard/${id}`}>
+          <Link href={`/dashboard`}>
             <DropdownMenuItem>
               <LayoutDashboard className="mr-2 h-4 w-4" />
               <span>Dashboard</span>
