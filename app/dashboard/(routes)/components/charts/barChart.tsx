@@ -5,9 +5,9 @@ import ReactApexChart from 'react-apexcharts';
 const columnChart = {
   series: [
     {
-      name: 'Trips',
-      data: [450, 200, 100, 220, 500, 100, 400, 230, 500, 300, 400, 250],
-      color: '#fff',
+      name: 'Rents',
+      data: [350, 250, 200, 230, 450, 200, 200, 210, 330, 500, 300, 300],
+      color: '#008ffb',
     },
   ],
 
@@ -25,7 +25,7 @@ const columnChart = {
       bar: {
         horizontal: false,
         columnWidth: '55%',
-        borderRadius: 5,
+        borderRadius: 2,
       },
     },
     dataLabels: {
@@ -63,18 +63,18 @@ const columnChart = {
         maxWidth: 160,
         style: {
           colors: [
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
           ],
         },
       },
@@ -87,18 +87,18 @@ const columnChart = {
         maxWidth: 160,
         style: {
           colors: [
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
-            '#fff',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
+            '#000000',
           ],
         },
       },
@@ -119,11 +119,11 @@ const BarChart = () => {
   return (
     <div className="overflow-hidden">
       <div className="mb-4">
-        <h2>Booking Summery</h2>
+        <h2 className="font-bold">Rent Summery</h2>
       </div>
       <div>
         <ReactApexChart
-          className="bg-black rounded-md shadow-md"
+          className="rounded-md border shadow-sm"
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           options={columnChart?.options}

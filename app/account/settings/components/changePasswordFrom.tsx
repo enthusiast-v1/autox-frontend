@@ -16,7 +16,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useChangePasswordMutation } from '@/redux/api/authApi';
 import { Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 const formSchema = z
   .object({
@@ -45,29 +47,30 @@ const formSchema = z
 type ChangePasswordFormValues = z.infer<typeof formSchema>;
 
 export const ChangePasswordForm = () => {
-  // const router = useRouter();
-
   const [loading, setLoading] = useState(false);
 
-  // const [changePassword] = useChangePasswordMutation();
+  const [changePassword] = useChangePasswordMutation();
 
   const form = useForm<ChangePasswordFormValues>({
     resolver: zodResolver(formSchema),
   });
 
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const onSubmit = async (data: ChangePasswordFormValues) => {
     setLoading(true);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // const res: any = await changePassword(data);
+    const changedData = {
+      oldPassword: data.oldPassword,
+      newPassword: data.newPassword,
+    };
 
-    // if (res?.data?.modified === true) {
-    //   router.push(`/account/profile`);
-    //   toast.success("Password changed successfully");
-    // } else if (res?.error) {
-    //   toast.error(res?.error?.message);
-    // }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const res: any = await changePassword(changedData);
+
+    if (res) {
+      toast.success('Password changed successfully');
+    } else if (res?.error) {
+      toast.error(res?.error?.message);
+    }
 
     setLoading(false);
   };
