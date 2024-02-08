@@ -1,14 +1,6 @@
 import CustomImage from '@/components/customImage';
 import { Separator } from '@/components/ui/separator';
-import {
-  ArrowDownWideNarrow,
-  CarFront,
-  Gauge,
-  Heart,
-  PersonStanding,
-  Sliders,
-  Star,
-} from 'lucide-react';
+import { CarFront, Gauge, PersonStanding, Sliders, Star } from 'lucide-react';
 
 const carData = [
   {
@@ -27,12 +19,12 @@ const carData = [
     passengerCapacity: 5,
   },
 ];
-const Reservation = () => {
+const CarCard = () => {
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className=" ">
       {carData.map(car => (
         <div key={car.brand} className="  shadow-lg p-4 text-sm rounded-lg">
-          <div className="flex justify-between gap-4 items-center ">
+          <div className="flex  flex-col lg:flex-row justify-between gap-4 items-center ">
             <div className="flex gap-2 items-center border-2 p-1 rounded-full">
               <Star />{' '}
               <p>
@@ -40,9 +32,9 @@ const Reservation = () => {
                 <span className="font-bold">{car.rating}</span>(106)
               </p>
             </div>
-            <p className="  p-1.5 rounded-full text-center bg-black text-white">
+            {/* <p className="  p-1.5 rounded-full text-center bg-black text-white">
               {car.status}
-            </p>
+            </p> */}
             <div className=" flex gap-2 items-center border-2 p-1 rounded-full">
               {' '}
               <PersonStanding />
@@ -50,23 +42,23 @@ const Reservation = () => {
                 <span className="font-bold">{car.mileage}</span>m(50 min)
               </p>
             </div>
-            <Heart className="ml-14" />
+            {/* <Heart className="ml-14" /> */}
           </div>
           <CustomImage
             src={car.image}
             alt="car image"
             className="w-full h-52 my-4"
           />
-          <p className="font-bold text-xl text-gray-600 mb-2">FORD FOCUS</p>
-          <div className="flex justify-between items-center">
+          <p className="font-bold  text-gray-600 mb-2">FORD FOCUS</p>
+          <div className="flex justify-between items-center flex-col lg:flex-row">
             <p className="font-bold text-2xl ">{car.model} </p>
             <p>
-              <span className="text-xl font-bold">${car.price} </span>
-              <span className="text-lg">/ hour</span>
+              <span className="text-lg font-bold">${car.price} </span>
+              <span>/ hour</span>
             </p>
           </div>
           <Separator />
-          <div className="text-lg flex items-center justify-between">
+          <div className=" flex items-center justify-between flex-col lg:flex-row">
             <p className="flex items-center gap-2">
               {' '}
               <CarFront />
@@ -80,9 +72,9 @@ const Reservation = () => {
             <p className="flex items-center gap-2">
               <Gauge /> {car.fuelType}
             </p>
-            <p className="flex items-center gap-2">
+            {/* <p className="flex items-center gap-2">
               <ArrowDownWideNarrow /> {car.vehicleType}
-            </p>
+            </p> */}
           </div>
         </div>
       ))}
@@ -90,4 +82,4 @@ const Reservation = () => {
   );
 };
 
-export default Reservation;
+export default CarCard;
