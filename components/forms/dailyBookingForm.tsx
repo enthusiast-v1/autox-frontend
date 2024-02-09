@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useState } from 'react';
@@ -37,6 +38,7 @@ import {
 import { times } from '@/constants/timeList';
 import { cn } from '@/lib/utils';
 import { useCreateBookingMutation } from '@/redux/api/bookingApi';
+import { useGetAllVehicleQuery } from '@/redux/api/vehicleApi';
 import { getClientUserInfo } from '@/services/auth.service';
 import { CalendarIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -84,6 +86,7 @@ const DailyBookingForm = () => {
   const user = getClientUserInfo();
 
   const [createBooking] = useCreateBookingMutation();
+  const { data: vehicles } = useGetAllVehicleQuery({});
 
   const form = useForm<dailyBookingFormValues>({
     resolver: zodResolver(formSchema),
@@ -314,13 +317,18 @@ const DailyBookingForm = () => {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue defaultValue={field.value} />
+                          <SelectValue
+                            defaultValue={field.value}
+                            placeholder="Select a vehicle"
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="BMW-e4">BMW-e4 - 4p</SelectItem>
-                        <SelectItem value="BMW-e5">BMW-e5 - 6p</SelectItem>
-                        <SelectItem value="BMW-e6">BMW-e6 - 8p</SelectItem>
+                        {vehicles?.map((vehicle: any) => (
+                          <SelectItem key={vehicle.id} value={vehicle.id}>
+                            {vehicle.model}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
