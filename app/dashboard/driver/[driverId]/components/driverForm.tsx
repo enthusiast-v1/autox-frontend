@@ -113,7 +113,7 @@ const DriverForm = ({ initialData }: any) => {
     } else {
       data.licenseExpire = new Date(data.licenseExpire).toISOString();
       const res: any = await createDriver(data);
-
+      console.log(res);
       if (res?.data?.id) {
         router.push(`/dashboard/driver`);
         toast.success('Driver created successfully');
@@ -153,89 +153,89 @@ const DriverForm = ({ initialData }: any) => {
             />
           )}
           <div className="grid md:grid-cols-2 gap-4">
-            {initialData ? (
-              <>
-                <FormField
-                  control={form.control}
-                  name="licenseNo"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>License NO</FormLabel>
-                      <FormControl>
-                        <Input placeholder="liscense no" {...field} />
-                      </FormControl>
+            <FormField
+              control={form.control}
+              name="licenseNo"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>License NO</FormLabel>
+                  <FormControl>
+                    <Input placeholder="liscense no" {...field} />
+                  </FormControl>
 
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="licenseExpire"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>License Expire</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="date"
-                          placeholder="license expire "
-                          {...field}
-                        />
-                      </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="licenseExpire"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>License Expire</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="date"
+                      placeholder="license expire "
+                      {...field}
+                    />
+                  </FormControl>
 
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="nidNo"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>NID NO</FormLabel>
-                      <FormControl>
-                        <Input placeholder="NID No" {...field} />
-                      </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="nidNo"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>NID NO</FormLabel>
+                  <FormControl>
+                    <Input placeholder="NID No" {...field} />
+                  </FormControl>
 
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="status"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Status</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue
-                              placeholder="select status"
-                              defaultValue={'Available'}
-                            />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="Availavle">Availavle</SelectItem>
-                          <SelectItem value="In_A_Trip">In_A_Trip</SelectItem>
-                          <SelectItem value="Accident">Accident</SelectItem>
-                          <SelectItem value="On_Vacation">
-                            {' '}
-                            On_Vacation
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />{' '}
-              </>
-            ) : (
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {initialData && (
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Status</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            placeholder="select status"
+                            defaultValue={'Available'}
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Available">Available</SelectItem>
+                        <SelectItem value="Unavailable">Unavailable</SelectItem>
+                        <SelectItem value="In_A_Trip">In_A_Trip</SelectItem>
+                        <SelectItem value="Accident">Accident</SelectItem>
+                        <SelectItem value="On_Vacation">
+                          {' '}
+                          On_Vacation
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+            {!initialData && (
               <>
                 <FormField
                   control={form.control}
