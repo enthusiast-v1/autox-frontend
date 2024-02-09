@@ -107,14 +107,14 @@ export const DriverClient = () => {
   const router = useRouter();
 
   const { data, isLoading } = useGetAllDriverQuery({});
-
+  console.log(data);
   if (isLoading) {
     return <Loading />;
   }
 
   const formattedDrivers: Driver[] = data?.map((item: any) => ({
     id: item.id,
-    email: item.user.email,
+    // email: item?.user?.email,
     driverId: item.driverId,
     licenseNo: item.licenseNo,
     licenseExpire: formatDate(new Date(item?.licenseExpire), 'MMMM do, yyyy'),

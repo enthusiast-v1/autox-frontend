@@ -215,6 +215,7 @@ const VehicleForm = ({ initialData }: any) => {
     if (initialData) {
       const id = initialData.id;
       const res: any = await updateVehicle({ id, data });
+      console.log(res);
       if (res?.data?.id) {
         router.push(`/dashboard/vehicle`);
         toast.success('Vehicle updated successfully');
@@ -223,6 +224,7 @@ const VehicleForm = ({ initialData }: any) => {
       }
     } else {
       const res: any = await createVehicle(data);
+
       if (res?.data?.id) {
         router.push(`/dashboard/vehicle`);
         toast.success('Vehicle created successfully');
@@ -452,10 +454,10 @@ const VehicleForm = ({ initialData }: any) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="Availavle">Availavle</SelectItem>
+                      <SelectItem value="Available">Available</SelectItem>
                       <SelectItem value="In_A_Trip">In_A_Trip</SelectItem>
                       <SelectItem value="Accident">Accident</SelectItem>
-                      <SelectItem value="On_Vacation"> On_Vacation</SelectItem>
+                      <SelectItem value="Maintenance"> Maintenance</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
