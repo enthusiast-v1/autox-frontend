@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-unsafe-optional-chaining */
 'use client';
 
 import { Heading } from '@/components/heading';
@@ -22,43 +24,91 @@ import {
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
+import {
+  useCreateVehicleMutation,
+  useUpdateVehicleMutation,
+} from '@/redux/api/vehicleApi';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
-const initialData = {
-  vehicleId: 'V123',
-  model: 'Toyota Corolla',
-  mileage: 50000.5,
-  color: 'Blue',
-  images: [
-    'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Y2FyfGVufDB8fDB8fHww',
-  ],
+// const initialData = {
+//   vehicleId: 'V123',
+//   model: 'Toyota Corolla',
+//   mileage: 50000.5,
+//   color: 'Blue',
+//   images: [
+//     'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Y2FyfGVufDB8fDB8fHww',
+//   ],
 
-  overview: 'Well-maintained sedan with spacious interior',
-  basePrice: 25000,
-  fuelType: 'Petrol',
-  passengerCapacity: 5,
-  location: 'New York',
-  plateNo: 'ABC123',
-  chassisNo: '12345678901234567',
-  status: 'Available',
-  owner: 'John Doe',
-  vehicleType: 'Sedan',
-  brand: 'Toyota',
-  driverId: 'D1234',
-  createdAt: '2024-02-04T10:00:00Z',
-  updatedAt: '2024-02-04T10:00:00Z',
-};
+//   overview: 'Well-maintained sedan with spacious interior',
+//   basePrice: 25000,
+//   fuelType: 'Petrol',
+//   passengerCapacity: 5,
+//   location: 'New York',
+//   plateNo: 'ABC123',
+//   chassisNo: '12345678901234567',
+//   status: 'Available',
+//   owner: 'John Doe',
+//   vehicleType: 'Sedan',
+//   brand: 'Toyota',
+//   driverId: 'D1234',
+//   createdAt: '2024-02-04T10:00:00Z',
+//   updatedAt: '2024-02-04T10:00:00Z',
+// };
+
+// {
+//   "name": "Driver 1",
+//   "email": "driver1@example.com",
+//   "password": "123321",
+//   "gender": "Male",
+//   "address": "123 Main St, City, Country",
+//   "image": "https://example.com/profile.jpg",
+//   "contactNo": "+1234567890",
+//   "licenseNo": "ABCD1234",
+//   "licenseExpire": "2024-02-08T07:12:24.084Z",
+//   "nidNo": "12345678901234567"
+// }
+// {
+//   "model": "Toyota Camry",
+//   "mileage": 50000,
+//   "color": "Red",
+//   "images": [
+//       "image_url1",
+//       "image_url2"
+//   ],
+//   "overview": "This is a spacious and reliable sedan.",
+//   "basePrice": 50,
+//   "fuelType": "Petrol",
+//   "passengerCapacity": 5,
+//   "location": "City, Country",
+//   "plateNo": "ABC123",
+//   "chassisNo": "12345678901234567",
+//   "status": "Available",
+//   "owner": "Owner's Name",
+//   "vehicleType": "XL",
+//   "brand": "Toyota",
+//   "year": "2022",
+//   "registrationNumber": "REG123456",
+//   "rentalRate": 60,
+//   "driverId": "2849aebb-3828-4d53-8d1f-d8da24c616d3"
+// }
 
 const formSchema = z.object({
-  vehicleId: z.string({ required_error: 'Vehicle Id is required' }).min(1),
   model: z.string({ required_error: 'Model is required' }).min(1),
   mileage: z.coerce.number({ required_error: 'Mileage no is required' }).min(1),
   color: z.string({ required_error: 'Color is required' }).min(1),
-  images: z.string({ required_error: 'Status is required' }),
+  images: z
+    .array(
+      z.string({
+        required_error: 'Images required',
+      }),
+    )
+    .min(1),
   overview: z.string({ required_error: 'Overview  is required' }).min(1),
   basePrice: z.coerce
     .number({ required_error: 'Base price  is required' })
@@ -104,24 +154,33 @@ const formSchema = z.object({
       required_error: 'Driver Id Type No  is required',
     })
     .min(1),
-  brandId: z
+  brand: z
     .string({
       required_error: 'Brand Id Type No  is required',
     })
+    .min(1),
+  year: z.string({ required_error: 'year  is required' }).min(1),
+  registrationNumber: z
+    .string({ required_error: 'registrationNumber  is required' })
+    .min(1),
+  rentalRate: z.coerce
+    .number({ required_error: 'rentalRate  is required' })
     .min(1),
 });
 
 type VehicleFormValues = z.infer<typeof formSchema>;
 
-const VehicleForm = () => {
+const VehicleForm = ({ initialData }: any) => {
   const [loading, setLoading] = useState(false);
+  const [createVehicle] = useCreateVehicleMutation();
+  const [updateVehicle] = useUpdateVehicleMutation();
+  const router = useRouter();
 
   const defaultValues = {
-    vehicleId: initialData?.vehicleId,
     model: initialData?.model,
     mileage: initialData?.mileage,
     color: initialData?.color,
-    images: initialData?.images[0],
+    images: initialData?.images || [],
     overview: initialData?.overview,
     basePrice: initialData?.basePrice,
     fuelType: initialData?.fuelType,
@@ -133,7 +192,10 @@ const VehicleForm = () => {
     owner: initialData?.owner,
     vehicleType: initialData?.vehicleType,
     driverId: initialData?.driverId,
-    brandId: 'sgd',
+    brand: initialData?.brand,
+    year: initialData?.year,
+    registrationNumber: initialData?.registrationNumber,
+    rentalRate: initialData?.rentalRate,
   };
   const title = initialData ? 'Edit vehicle' : 'Create vehicle';
   const description = initialData
@@ -147,19 +209,32 @@ const VehicleForm = () => {
     defaultValues: defaultValues,
   });
 
-  function onSubmit(values: VehicleFormValues) {
+  const onSubmit = async (data: VehicleFormValues) => {
     setLoading(true);
-    console.log(values);
+
     if (initialData) {
-      console.log('update a vehicle');
+      const id = initialData.id;
+      const res: any = await updateVehicle({ id, data });
+      if (res?.data?.id) {
+        router.push(`/dashboard/vehicle`);
+        toast.success('Vehicle updated successfully');
+      } else if (res?.error) {
+        toast.error(res?.error?.message);
+      }
     } else {
-      console.log('create a vehicle');
+      const res: any = await createVehicle(data);
+      if (res?.data?.id) {
+        router.push(`/dashboard/vehicle`);
+        toast.success('Vehicle created successfully');
+      } else if (res?.error) {
+        toast.error(res?.error?.message);
+      }
     }
 
     setLoading(false);
-  }
+  };
   return (
-    <div className="m-4">
+    <div className="m-4 ">
       <Heading title={title} description={description} />
       <Separator />
       <Form {...form}>
@@ -172,33 +247,31 @@ const VehicleForm = () => {
             name="images"
             render={({ field }) => (
               <FormItem>
+                <FormLabel>Images</FormLabel>
                 <FormControl>
                   <ImageUpload
-                    value={field.value ? [field.value] : []}
-                    onChange={url => field.onChange(url)}
-                    onRemove={() => field.onChange('')}
+                    value={
+                      Array.isArray(field.value)
+                        ? field.value.map(image => image)
+                        : []
+                    }
+                    disabled={loading}
+                    onChange={url =>
+                      field.onChange([...(field.value || []), url])
+                    }
+                    onRemove={url =>
+                      field.onChange(
+                        (field.value || []).filter(current => current !== url),
+                      )
+                    }
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <FormField
-              control={form.control}
-              name="vehicleId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Vehicle Id</FormLabel>
-                  <FormControl>
-                    <Input placeholder="vehicle Id" {...field} />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <FormField
               control={form.control}
               name="model"
@@ -410,10 +483,25 @@ const VehicleForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Vehicle Type</FormLabel>
-                  <FormControl>
-                    <Input placeholder="vehicle type" {...field} />
-                  </FormControl>
-
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="select a type" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="S">S</SelectItem>
+                      <SelectItem value="M">M</SelectItem>
+                      <SelectItem value="L">L</SelectItem>
+                      <SelectItem value="XL"> XL</SelectItem>
+                      <SelectItem value="XXL"> XXL</SelectItem>
+                      <SelectItem value="XXXL"> XXXL</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -434,12 +522,73 @@ const VehicleForm = () => {
             />
             <FormField
               control={form.control}
-              name="brandId"
+              name="brand"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Brand Id</FormLabel>
+                  <FormLabel>Brand</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="select a brand" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="Toyota">Toyota</SelectItem>
+                      <SelectItem value="Hyundai">Hyundai</SelectItem>
+                      <SelectItem value="Audi">Audi</SelectItem>
+                      <SelectItem value="Proton"> Proton</SelectItem>
+                      <SelectItem value="Mitsubishi"> Mitsubishi</SelectItem>
+                      <SelectItem value="BMW"> BMW</SelectItem>
+                      <SelectItem value="Suzuki"> Suzuki</SelectItem>
+                      <SelectItem value="Mazda"> Mazda</SelectItem>
+                      <SelectItem value="Honda"> Honda</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="year"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Year</FormLabel>
                   <FormControl>
-                    <Input placeholder="brand id" {...field} />
+                    <Input placeholder="year" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="registrationNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Registration Number</FormLabel>
+                  <FormControl>
+                    <Input placeholder="registration number" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="rentalRate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Rental Rate</FormLabel>
+                  <FormControl>
+                    <Input type="number" placeholder="rental rate" {...field} />
                   </FormControl>
 
                   <FormMessage />

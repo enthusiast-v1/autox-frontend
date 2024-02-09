@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
 'use client';
 
@@ -15,6 +16,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { AlertModal } from '@/components/modals/alertModal';
+import { useDeleteDriverMutation } from '@/redux/api/driverApi';
+import { toast } from 'sonner';
 import { Driver } from './columns';
 
 type CellActionProps = {
@@ -25,15 +28,26 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [open, setOpen] = useState(false);
 
-  //   const [deleteProduct] = useDeleteProductMutation();
+  const [deleteProduct] = useDeleteDriverMutation();
 
-  const onDelete: () => Promise<void> = async () => {
+  const onDelete = async () => {
     setLoading(true);
-    console.log('delete');
+
+    const res: any = await deleteProduct(data?.id);
+
+    if (res?.data?.id) {
+      toast.success('Driver deleted successfully');
+      router.refresh();
+    } else if (res?.error) {
+      toast.error(res?.error?.message);
+    }
+
+    setOpen(false);
+    setLoading(false);
   };
+
   return (
     <>
       <AlertModal
