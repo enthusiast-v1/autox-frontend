@@ -3,10 +3,10 @@ import { baseApi } from './baseApi';
 export const bookingApi = baseApi.injectEndpoints({
   endpoints: build => ({
     createBooking: build.mutation({
-      query: () => ({
+      query: data => ({
         url: '/bookings',
         method: 'POST',
-        data: '',
+        data: data,
       }),
     }),
   }),

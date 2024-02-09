@@ -10,6 +10,7 @@ export const vehicleApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['vehicle'],
     }),
+
     getAllVehicle: build.query({
       query: () => ({
         url: '/vehicles',
@@ -17,6 +18,7 @@ export const vehicleApi = baseApi.injectEndpoints({
       }),
       providesTags: ['vehicle'],
     }),
+
     getSingleVehicle: build.query({
       query: id => ({
         url: `/vehicles/${id}`,

@@ -3,24 +3,36 @@ import { Heading } from '@/components/heading';
 import { AlertModal } from '@/components/modals/alertModal';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { useDeleteProfileMutation } from '@/redux/api/profileApi';
+import { getClientUserInfo } from '@/services/auth.service';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { ChangePasswordForm } from './components/changePasswordFrom';
 
 const SettingsPage = () => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const user = getClientUserInfo();
+
+  const [deleteUser] = useDeleteProfileMutation();
 
   const onDelete = async () => {
     setLoading(true);
 
-    // if (res?.data?._id) {
-    //   toast.success('Store deleted successfully');
-    //   router.push('/');
-    // }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const res: any = await deleteUser(user.id);
 
-    // if (res?.error) {
-    //   toast.error(res?.error?.message);
-    // }
+    if (res?.data?._id) {
+      toast.success('Account deleted successfully');
+      router.push('/');
+    }
+
+    if (res?.error) {
+      toast.error(res?.error?.message);
+    }
 
     setLoading(false);
     setOpen(false);

@@ -8,7 +8,14 @@ export const profileApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
     }),
+
+    deleteProfile: build.mutation({
+      query: id => ({
+        url: `/users/${id}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
 });
 
-export const { useGetProfileQuery } = profileApi;
+export const { useGetProfileQuery, useDeleteProfileMutation } = profileApi;

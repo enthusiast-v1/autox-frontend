@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useState } from 'react';
@@ -36,7 +37,12 @@ import {
 } from '@/components/ui/select';
 import { times } from '@/constants/timeList';
 import { cn } from '@/lib/utils';
+import { useCreateBookingMutation } from '@/redux/api/bookingApi';
+import { useGetAllVehicleQuery } from '@/redux/api/vehicleApi';
+import { getClientUserInfo } from '@/services/auth.service';
 import { CalendarIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import { Checkbox } from '../ui/checkbox';
 
 const items = [
@@ -48,21 +54,17 @@ const items = [
 
 const formSchema = z.object({
   pickUpLocation: z.string({ required_error: '' }),
-
   pickUpTime: z.string({ required_error: '' }),
   dropOffLocation: z.string({ required_error: '' }),
-
   dropOffTime: z.string({ required_error: '' }),
   vehicle: z.string({ required_error: '' }),
   customizedOptions: z.array(z.string().optional()).optional(),
-
   pickUpDate: z
     .date({ required_error: '' })
     .refine(
       data => data > addDays(new Date(), -1),
       'Date must be in the future',
     ),
-
   dropOffDate: z
     .date({ required_error: '' })
     .refine(
@@ -74,7 +76,13 @@ const formSchema = z.object({
 type monthlyBookingFormValues = z.infer<typeof formSchema>;
 
 const MonthlyBookingForm = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
+
+  const user = getClientUserInfo();
+
+  const [createBooking] = useCreateBookingMutation();
+  const { data: vehicles } = useGetAllVehicleQuery({});
 
   const form = useForm<monthlyBookingFormValues>({
     resolver: zodResolver(formSchema),
@@ -83,29 +91,26 @@ const MonthlyBookingForm = () => {
   const onSubmit = async (data: monthlyBookingFormValues) => {
     setLoading(true);
 
-    console.log(data);
+    const bookingData = {
+      pickUpDateTime: new Date(data.pickUpDate).toISOString(),
+      returnDateTime: new Date(data.dropOffDate).toISOString(),
+      pickUpLocation: data.pickUpLocation,
+      dropOffLocation: data.dropOffLocation,
+      rentType: 'Monthly',
+      // driverId: '2849aebb-3828-4d53-8d1f-d8da24c616d3',
+      vehicleId: '3557338a-6652-4a92-8f7d-db70a9612967',
+      userId: user.id,
+    };
 
-    // if (initialData) {
-    //   const res: any = await updateProduct({ id, data });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const res: any = await createBooking(bookingData);
 
-    //   if (res?.data?._id) {
-    //     router.push(`/`);
-    //     toast.success('Product updated successfully');
-    //   } else if (res?.error) {
-    //     toast.error(res?.error?.message);
-    //   }
-    // } else {
-    //   data.storeId = storeId as string;
-
-    //   const res: any = await createProduct(data);
-
-    //   if (res?.data?._id) {
-    //     router.push(`/${}/products`);
-    //     toast.success('Product created successfully');
-    //   } else if (res?.error) {
-    //     toast.error(res?.error?.message);
-    //   }
-    // }
+    if (res?.data?.id) {
+      router.push(`/`);
+      toast.success('Vehicle booked successfully');
+    } else if (res?.error) {
+      toast.error(res?.error?.message);
+    }
 
     setLoading(false);
   };
@@ -308,13 +313,18 @@ const MonthlyBookingForm = () => {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue defaultValue={field.value} />
+                          <SelectValue
+                            defaultValue={field.value}
+                            placeholder="Select a vehicle"
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="BMW-e4">BMW-e4 - 4p</SelectItem>
-                        <SelectItem value="BMW-e5">BMW-e5 - 6p</SelectItem>
-                        <SelectItem value="BMW-e6">BMW-e6 - 8p</SelectItem>
+                        {vehicles?.map((vehicle: any) => (
+                          <SelectItem key={vehicle.id} value={vehicle.id}>
+                            {vehicle.model}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
