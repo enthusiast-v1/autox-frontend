@@ -17,13 +17,13 @@ export type Driver = {
 
 export const columns: ColumnDef<Driver>[] = [
   {
-    accessorKey: 'id',
-    header: 'ID',
+    accessorKey: 'email',
+    header: 'Email',
   },
   {
     accessorKey: 'licenseNo',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="licenseNo" />
+      <DataTableColumnHeader column={column} title="License No" />
     ),
   },
   {
@@ -35,7 +35,7 @@ export const columns: ColumnDef<Driver>[] = [
   {
     accessorKey: 'licenseExpire',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="License Expire" />
+      <DataTableColumnHeader column={column} title="License Expire Date" />
     ),
   },
   {

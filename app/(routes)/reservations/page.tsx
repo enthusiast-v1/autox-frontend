@@ -301,7 +301,7 @@ const ReservationsPage = () => {
             />
           </div>
 
-          <div className="h-screen overflow-x-scroll flex flex-col gap-4">
+          <div className="h-screen overflow-x-scroll no-scrollbar flex flex-col gap-4">
             {carData.map((car, ind) => (
               <CarCard key={ind} />
             ))}

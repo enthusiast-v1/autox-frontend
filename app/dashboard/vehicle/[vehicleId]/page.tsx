@@ -1,15 +1,19 @@
+'use client';
+import { useGetSingleVehicleQuery } from '@/redux/api/vehicleApi';
+import { useParams } from 'next/navigation';
 import VehicleForm from './components/vehicleForm';
 
 const Vehicle = () => {
-  // const { data, isLoading } = useGetSingleVehicleQuery(params.vehicleId);
+  const { vehicleId } = useParams();
+  const { data: initialData, isLoading } = useGetSingleVehicleQuery(vehicleId);
 
-  // if (isLoading) {
-  //   return null;
-  // }
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <div>
-      <VehicleForm />
+      <VehicleForm initialData={initialData} />
     </div>
   );
 };
