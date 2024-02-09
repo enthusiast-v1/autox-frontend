@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
@@ -15,7 +16,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useDeleteVehicleMutation } from '@/redux/api/vehicleApi';
 import { AlertDialog } from '@radix-ui/react-alert-dialog';
+import { toast } from 'sonner';
 import { Vehicle } from './columns';
 
 type CellActionProps = {
@@ -24,12 +27,25 @@ type CellActionProps = {
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter();
+  const [deleteVehicle] = useDeleteVehicleMutation();
 
-  const [loading, isLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const onDelete: () => Promise<void> = async () => {
-    console.log('delete');
+  const onDelete = async () => {
+    setLoading(true);
+    console.log(data?.id);
+    const res: any = await deleteVehicle(data?.id);
+
+    if (res?.data?.id) {
+      toast.success('Vehicle deleted successfully');
+      router.refresh();
+    } else if (res?.error) {
+      toast.error(res?.error?.message);
+    }
+
+    setOpen(false);
+    setLoading(false);
   };
 
   return (

@@ -52,6 +52,12 @@ export const columns: ColumnDef<Vehicle>[] = [
     ),
   },
   {
+    accessorKey: 'status',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
+  },
+  {
     accessorKey: 'Actions',
     id: 'actions',
     cell: ({ row }) => <CellAction data={row.original} />,
