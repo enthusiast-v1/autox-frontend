@@ -62,12 +62,14 @@ export default function UserProfile() {
               <span>Manage Account</span>
             </DropdownMenuItem>
           </Link>
+          {/* {user.role === 'admin' | "super_admin" && ( */}
           <Link href={`/dashboard`}>
             <DropdownMenuItem>
               <LayoutDashboard className="mr-2 h-4 w-4" />
               <span>Dashboard</span>
             </DropdownMenuItem>
           </Link>
+          {/* )} */}
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />

@@ -21,7 +21,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import Loader from '@/components/loader';
 import { Calendar } from '@/components/ui/calendar';
 import {
   Popover,
@@ -40,7 +39,7 @@ import { cn } from '@/lib/utils';
 import { useCreateBookingMutation } from '@/redux/api/bookingApi';
 import { useGetAllVehicleQuery } from '@/redux/api/vehicleApi';
 import { getClientUserInfo } from '@/services/auth.service';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Checkbox } from '../ui/checkbox';
@@ -101,8 +100,7 @@ const DailyBookingForm = () => {
       pickUpLocation: data.pickUpLocation,
       dropOffLocation: data.dropOffLocation,
       rentType: 'Daily',
-      // driverId: '2849aebb-3828-4d53-8d1f-d8da24c616d3',
-      vehicleId: '3557338a-6652-4a92-8f7d-db70a9612967',
+      vehicleId: data.vehicle,
       userId: user.id,
     };
 
@@ -397,7 +395,7 @@ const DailyBookingForm = () => {
               {loading ? (
                 <>
                   Book Now
-                  <Loader />
+                  <Loader2 className="ml-2 h-4 w-4 animate-spin" />
                 </>
               ) : (
                 <>Book Now</>

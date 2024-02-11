@@ -1,9 +1,4 @@
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { AlignRight } from 'lucide-react';
 import Link from 'next/link';
 import logo from '../assets/logo.png';
@@ -33,15 +28,13 @@ const NavBar = async () => {
         <UserProfile />
         <Sheet>
           <SheetTrigger asChild className="md:hidden">
-            <AlignRight className="w-6 h-6 text-white" />
+            <AlignRight strokeWidth={1.35} className="w-6 h-6 text-white" />
           </SheetTrigger>
           <SheetContent
             side={'right'}
             className="flex items-center justify-center bg-black border-none"
           >
-            <SheetClose>
-              <NavItems />
-            </SheetClose>
+            <NavItems />
           </SheetContent>
         </Sheet>
       </div>

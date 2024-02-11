@@ -1,30 +1,26 @@
 'use client';
 
-import { redirect } from 'next/navigation';
 import React from 'react';
 
 import SecondaryNavBar from '@/components/secondaryNavBar';
 import SideBar from '@/components/sideBar';
-import dashboardNavItems from '@/constants/dashboardNavItems';
-import { getClientUserInfo } from '@/services/auth.service';
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const role = 'super_admin';
-  const user = getClientUserInfo();
-
-  if (!user) {
-    redirect('/login');
-  }
-
   return (
     <div className="max-w-7xl mx-auto">
       <SecondaryNavBar />
-
-      <SideBar sideNavItems={dashboardNavItems({ role })}>{children}</SideBar>
+      <div className="bg-background">
+        <div className="grid md:grid-cols-5">
+          <SideBar className="hidden lg:block" />
+          <div className="col-span-5 lg:col-span-4 md:border-l">
+            <div className="h-full px-4 py-6 lg:px-8">{children}</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

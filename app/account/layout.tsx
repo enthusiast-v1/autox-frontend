@@ -2,24 +2,20 @@
 
 import SecondaryNavBar from '@/components/secondaryNavBar';
 import SideBar from '@/components/sideBar';
-import accountNavItems from '@/constants/accountNavItems';
-import { getClientUserInfo } from '@/services/auth.service';
-import { redirect } from 'next/navigation';
 import React from 'react';
 
 const AccountLayout = ({ children }: { children: React.ReactNode }) => {
-  const role = 'customer';
-
-  const user = getClientUserInfo();
-
-  if (!user) {
-    redirect('/login');
-  }
-
   return (
     <div className="max-w-7xl mx-auto">
       <SecondaryNavBar />
-      <SideBar sideNavItems={accountNavItems({ role })}>{children}</SideBar>
+      <div className="bg-background">
+        <div className="grid md:grid-cols-5">
+          <SideBar className="hidden lg:block" />
+          <div className="col-span-5 lg:col-span-4 md:border-l">
+            <div className="h-full px-4 py-6 lg:px-8">{children}</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
