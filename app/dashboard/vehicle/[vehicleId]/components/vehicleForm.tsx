@@ -149,11 +149,6 @@ const formSchema = z.object({
       required_error: 'Vehicle Type No  is required',
     })
     .min(1),
-  driverId: z
-    .string({
-      required_error: 'Driver Id Type No  is required',
-    })
-    .min(1),
   brand: z
     .string({
       required_error: 'Brand Id Type No  is required',
@@ -191,7 +186,7 @@ const VehicleForm = ({ initialData }: any) => {
     status: initialData?.status,
     owner: initialData?.owner,
     vehicleType: initialData?.vehicleType,
-    driverId: initialData?.driverId,
+
     brand: initialData?.brand,
     year: initialData?.year,
     registrationNumber: initialData?.registrationNumber,
@@ -508,20 +503,7 @@ const VehicleForm = ({ initialData }: any) => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="driverId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Driver Id</FormLabel>
-                  <FormControl>
-                    <Input placeholder="driver id" {...field} />
-                  </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="brand"

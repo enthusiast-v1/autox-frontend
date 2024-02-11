@@ -2,12 +2,19 @@
 
 import ReactApexChart from 'react-apexcharts';
 
+// prevent to next build error.
+// import dynamic from 'next/dynamic';
+// const ReactApexChart = dynamic(() => import('react-apexcharts'), {
+//   ssr: false,
+// });
+
 const columnChart = {
   series: [
     {
       name: 'Rents',
       data: [350, 250, 200, 230, 450, 200, 200, 210, 330, 500, 300, 300],
-      color: '#008ffb',
+      // color: '#008ffb',
+      color: '#000000',
     },
   ],
 
