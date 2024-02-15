@@ -6,7 +6,7 @@ import React from 'react';
 
 const AccountLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-[1444px] mx-auto">
       <SecondaryNavBar />
       <div className="bg-background">
         <div className="grid md:grid-cols-5">

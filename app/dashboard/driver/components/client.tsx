@@ -1,146 +1,113 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { Heading } from '@/components/heading';
 import { Button } from '@/components/ui/button';
-import { DataTable } from '@/components/ui/dataTable';
-import { Separator } from '@/components/ui/separator';
-import { useGetAllDriverQuery } from '@/redux/api/driverApi';
-import { formatDate } from 'date-fns';
-import { Plus } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import Loading from '../loading';
-import { Driver, columns } from './columns';
+import { Input } from '@/components/ui/input';
+import { PlusCircle, Search } from 'lucide-react';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
-// const data = [
-//   {
-//     id: '1',
-//     driverId: 'D001',
-//     licenseNo: 'DL123456',
-//     licenseExpire: '2024-12-31T23:59:59Z',
-//     nidNo: '1234567890123',
-//     status: 'Available',
-//     userId: '2',
-//     createdAt: '2024-02-05T12:34:56Z',
-//     updatedAt: '2024-02-05T12:34:56Z',
-//   },
-//   {
-//     id: '2',
-//     driverId: 'D002',
-//     licenseNo: 'DL654321',
-//     licenseExpire: '2025-06-30T23:59:59Z',
-//     nidNo: '9876543210987',
-//     status: 'Unavailable',
-//     userId: '3',
-//     createdAt: '2024-02-06T09:12:34Z',
-//     updatedAt: '2024-02-06T09:12:34Z',
-//   },
-//   {
-//     id: '1',
-//     driverId: 'D001',
-//     licenseNo: 'DL123456',
-//     licenseExpire: '2024-12-31T23:59:59Z',
-//     nidNo: '1234567890123',
-//     status: 'Available',
-//     userId: '2',
-//     createdAt: '2024-02-05T12:34:56Z',
-//     updatedAt: '2024-02-05T12:34:56Z',
-//   },
-//   {
-//     id: '2',
-//     driverId: 'D002',
-//     licenseNo: 'DL654321',
-//     licenseExpire: '2025-06-30T23:59:59Z',
-//     nidNo: '9876543210987',
-//     status: 'Unavailable',
-//     userId: '3',
-//     createdAt: '2024-02-06T09:12:34Z',
-//     updatedAt: '2024-02-06T09:12:34Z',
-//   },
-//   {
-//     id: '1',
-//     driverId: 'D001',
-//     licenseNo: 'DL123456',
-//     licenseExpire: '2024-12-31T23:59:59Z',
-//     nidNo: '1234567890123',
-//     status: 'Available',
-//     userId: '2',
-//     createdAt: '2024-02-05T12:34:56Z',
-//     updatedAt: '2024-02-05T12:34:56Z',
-//   },
-//   {
-//     id: '2',
-//     driverId: 'D002',
-//     licenseNo: 'DL654321',
-//     licenseExpire: '2025-06-30T23:59:59Z',
-//     nidNo: '9876543210987',
-//     status: 'Unavailable',
-//     userId: '3',
-//     createdAt: '2024-02-06T09:12:34Z',
-//     updatedAt: '2024-02-06T09:12:34Z',
-//   },
-//   {
-//     id: '1',
-//     driverId: 'D001',
-//     licenseNo: 'DL123456',
-//     licenseExpire: '2024-12-31T23:59:59Z',
-//     nidNo: '1234567890123',
-//     status: 'Available',
-//     userId: '2',
-//     createdAt: '2024-02-05T12:34:56Z',
-//     updatedAt: '2024-02-05T12:34:56Z',
-//   },
-//   {
-//     id: '2',
-//     driverId: 'D002',
-//     licenseNo: 'DL654321',
-//     licenseExpire: '2025-06-30T23:59:59Z',
-//     nidNo: '9876543210987',
-//     status: 'Unavailable',
-//     userId: '3',
-//     createdAt: '2024-02-06T09:12:34Z',
-//     updatedAt: '2024-02-06T09:12:34Z',
-//   },
-// ];
+const invoices = [
+  {
+    invoice: 'INV001',
+    paymentStatus: 'Paid',
+    totalAmount: '$250.00',
+    paymentMethod: 'Credit Card',
+  },
+  {
+    invoice: 'INV002',
+    paymentStatus: 'Pending',
+    totalAmount: '$150.00',
+    paymentMethod: 'PayPal',
+  },
+  {
+    invoice: 'INV003',
+    paymentStatus: 'Unpaid',
+    totalAmount: '$350.00',
+    paymentMethod: 'Bank Transfer',
+  },
+  {
+    invoice: 'INV004',
+    paymentStatus: 'Paid',
+    totalAmount: '$450.00',
+    paymentMethod: 'Credit Card',
+  },
+  {
+    invoice: 'INV005',
+    paymentStatus: 'Paid',
+    totalAmount: '$550.00',
+    paymentMethod: 'PayPal',
+  },
+  {
+    invoice: 'INV006',
+    paymentStatus: 'Pending',
+    totalAmount: '$200.00',
+    paymentMethod: 'Bank Transfer',
+  },
+  {
+    invoice: 'INV007',
+    paymentStatus: 'Unpaid',
+    totalAmount: '$300.00',
+    paymentMethod: 'Credit Card',
+  },
+];
 
-export const DriverClient = () => {
-  const router = useRouter();
-
-  const { data, isLoading } = useGetAllDriverQuery({});
-  console.log(data);
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  const formattedDrivers: Driver[] = data?.map((item: any) => ({
-    id: item.id,
-    // email: item?.user?.email,
-    driverId: item.driverId,
-    licenseNo: item.licenseNo,
-    licenseExpire: formatDate(new Date(item?.licenseExpire), 'MMMM do, yyyy'),
-    nidNo: item.nidNo,
-    status: item.status,
-  }));
-
+const DriverClient = () => {
   return (
-    <div className="m-4">
-      <div className="flex items-center justify-between">
-        <Heading
-          title={`Driver (${formattedDrivers?.length})`}
-          description="Manage your drivers"
-        />
-        <Button onClick={() => router.push(`/dashboard/driver/new`)}>
-          <Plus className="mr-2 h-4 w-4 " /> Add New
+    <section className="flex flex-col gap-y-6">
+      <div className="flex flex-row items-center justify-between gap-x-4">
+        <div className="flex flex-row items-center flex-grow">
+          <Input type="text" placeholder="Search driver by info" />
+          <Button variant="secondary" className="ml-[-52px]">
+            <Search size={20} color="#4B5563" />
+          </Button>
+        </div>
+        <Button variant="default">
+          <PlusCircle />
+          &nbsp; Add a driver
         </Button>
       </div>
-      <Separator />
-      <div className="p-6 border rounded-md shadow-sm">
-        <DataTable
-          searchKey="status"
-          columns={columns}
-          data={formattedDrivers}
-        />
-      </div>
-    </div>
+      <Table>
+        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableHeader>
+          <TableRow className="bg-black hover:bg-black">
+            <TableHead className="w-[100px]">Invoice</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Method</TableHead>
+            <TableHead className="text-right">Amount</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {invoices.map((invoice, i) => (
+            <TableRow
+              className={`${i % 2 && 'bg-gray-500 text-white hover:bg-gray-600 hover:text-white/90'}`}
+              key={invoice.invoice}
+            >
+              <TableCell className="font-medium">{invoice.invoice}</TableCell>
+              <TableCell>{invoice.paymentStatus}</TableCell>
+              <TableCell>{invoice.paymentMethod}</TableCell>
+              <TableCell className="text-right">
+                {invoice.totalAmount}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell colSpan={3}>Total</TableCell>
+            <TableCell className="text-right">$2,500.00</TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </section>
   );
 };
+
+export default DriverClient;

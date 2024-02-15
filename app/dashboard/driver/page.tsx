@@ -1,4 +1,4 @@
-import { DriverClient } from './components/client';
+import DriverClient from './components/client';
 
 const ManageDriver = () => {
   return (

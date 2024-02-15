@@ -1,4 +1,5 @@
 'use client';
+
 import { DataTableColumnHeader } from '@/components/ui/columHeader';
 import { ColumnDef } from '@tanstack/react-table';
 import { CellAction } from './cell-action';
@@ -71,7 +72,6 @@ export const columns: ColumnDef<Booking>[] = [
       <DataTableColumnHeader column={column} title="Status" />
     ),
   },
-
   {
     accessorKey: 'Actions',
     id: 'actions',

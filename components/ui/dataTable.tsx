@@ -62,14 +62,16 @@ export function DataTable<TData, TValue>({
           onChange={event =>
             table?.getColumn(searchKey)?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
         />
       </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map(headerGroup => (
-              <TableRow key={headerGroup.id}>
+              <TableRow
+                key={headerGroup.id}
+                className="bg-black hover:bg-black text-white/90 active:text-white"
+              >
                 {headerGroup.headers.map(header => {
                   return (
                     <TableHead key={header.id}>
@@ -87,10 +89,11 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map(row => (
+              table.getRowModel().rows.map((row, i) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
+                  className={`${i % 2 && 'bg-slate-900/50 text-white hover:bg-slate-800/50 hover:text-white/90'}`}
                 >
                   {row.getVisibleCells().map(cell => (
                     <TableCell key={cell.id}>
