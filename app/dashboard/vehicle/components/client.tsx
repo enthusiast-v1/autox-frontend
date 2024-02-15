@@ -19,6 +19,7 @@ export const VehicleClient = () => {
   }
   const formattedVehicles: Vehicle[] = data.map((item: any) => ({
     id: item.id,
+    vehicleId: item.vehicleId,
     model: item.model,
     mileage: item.mileage,
     color: item.color,
