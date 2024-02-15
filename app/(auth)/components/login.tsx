@@ -17,10 +17,11 @@ import { Input } from '@/components/ui/input';
 
 import { toast } from 'sonner';
 
-import GoogleIcon from '@/components/icons/google';
 import { useUserLoginMutation } from '@/redux/api/authApi';
 import { storeUserInfo } from '@/services/auth.service';
+import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import { Loader2 } from 'lucide-react';
+import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -53,6 +54,8 @@ const Login = () => {
       password: '',
     },
   });
+  const { data: session } = useSession();
+  console.log(session, 'from login ahmad');
 
   async function onSubmit(loginData: z.infer<typeof FormSchema>) {
     setLoading(true);
@@ -145,10 +148,40 @@ const Login = () => {
           <Button
             className="w-full flex items-center justify-center gap-2"
             variant="outline"
+            onClick={() =>
+              signIn('github', {
+                callbackUrl: 'http://localhost:3000/',
+              })
+            }
           >
-            <GoogleIcon className="w-4 h-4" />
-            Continue with Google
+            <GitHubLogoIcon className="w-4 h-4" />
+            Continue with Github
           </Button>
+
+          {/* <div className="w-full flex items-center justify-center gap-2">
+            <Button
+              // variant="outlined" // Use "outlined" variant for Material-UI Button
+              onClick={() =>
+                signIn('google', {
+                  callbackUrl: 'http://localhost:3000/',
+                })
+              } // Use onClick handler to trigger signIn with Google
+            >
+              <GoogleIcon className="w-4 h-4" /> Continue with Google
+            </Button>
+          </div>
+          <div className="w-full flex items-center justify-center gap-2">
+            <Button
+              // variant="outlined" // Use "outlined" variant for Material-UI Button
+              onClick={() =>
+                signIn('github', {
+                  callbackUrl: 'http://localhost:3000/',
+                })
+              } // Use onClick handler to trigger signIn with Google
+            >
+              <GoogleIcon className="w-4 h-4" /> Continue with Github
+            </Button>
+          </div> */}
 
           <p className="text-center text-sm">
             Don&apos;t have an account?

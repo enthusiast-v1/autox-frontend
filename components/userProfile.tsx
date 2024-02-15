@@ -4,6 +4,7 @@ import { authKey } from '@/constants/authKey';
 import { useGetProfileQuery } from '@/redux/api/profileApi';
 import { getClientUserInfo, removeUserInfo } from '@/services/auth.service';
 import { LayoutDashboard, LogOut, Settings, User } from 'lucide-react';
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -21,6 +22,9 @@ import {
 } from './ui/dropdown-menu';
 
 export default function UserProfile() {
+  const { data: session } = useSession();
+  console.log(session?.user?.image, 'from profile');
+
   const router = useRouter();
 
   const user = getClientUserInfo();
@@ -36,11 +40,15 @@ export default function UserProfile() {
 
   return (
     <DropdownMenu>
-      {data?.user?.email ? (
+      {data?.user?.email ?? session?.user?.email ? (
         <DropdownMenuTrigger asChild>
           {data?.image ? (
             <Avatar>
-              <CustomImage src={data?.image} alt="user image" priority={true} />
+              <CustomImage
+                src={data?.image ? data?.image : session?.user?.image}
+                alt="user image"
+                priority={true}
+              />
             </Avatar>
           ) : (
             <User className="w-full h-full text-white" />
@@ -73,10 +81,17 @@ export default function UserProfile() {
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => handleLogout()}>
-          <LogOut className="mr-2 h-4 w-4" />
-          <span>Sign out</span>
-        </DropdownMenuItem>
+        {session?.user?.image ? (
+          <DropdownMenuItem onClick={() => signOut()}>
+            <LogOut className="mr-2 h-4 w-4" />
+            <span>Sign out</span>
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem onClick={() => handleLogout()}>
+            <LogOut className="mr-2 h-4 w-4" />
+            <span>Sign out</span>
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
