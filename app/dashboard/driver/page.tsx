@@ -1,11 +1,7 @@
 import DriverClient from './components/client';
 
 const ManageDriver = () => {
-  return (
-    <div>
-      <DriverClient />
-    </div>
-  );
+  return <DriverClient />;
 };
 
 export default ManageDriver;

@@ -55,7 +55,7 @@ const AddAVehicle = () => {
 
       if (res) toast.success('Vehicle added successfully');
     } catch (error) {
-      console.log('Error form add vehicle on submit --> ', error);
+      console.log('Error Form Add Vehicle On Submit --> ', error);
     }
   };
 

@@ -18,24 +18,14 @@ export type Driver = {
 export const columns: ColumnDef<Driver>[] = [
   {
     accessorKey: 'email',
-    header: 'Email',
-  },
-  {
-    accessorKey: 'licenseNo',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="License No" />
+      <DataTableColumnHeader column={column} title="Email" />
     ),
   },
   {
     accessorKey: 'driverId',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Driver Id" />
-    ),
-  },
-  {
-    accessorKey: 'licenseExpire',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="License Expire Date" />
     ),
   },
   {

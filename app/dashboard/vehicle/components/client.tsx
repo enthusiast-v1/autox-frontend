@@ -18,23 +18,7 @@ export const VehicleClient = () => {
     return <Loading />;
   }
   const formattedVehicles: Vehicle[] = data.map((item: any) => ({
-    id: item.id,
-    vehicleId: item.vehicleId,
-    model: item.model,
-    mileage: item.mileage,
-    color: item.color,
-    images: item.images,
-    overview: item.overview,
-    basePrice: item.basePrice,
-    fuelType: item.fuelType,
-    passengerCapacity: item.passengerCapacity,
-    location: item.location,
-    plateNo: item.plateNo,
-    chassisNo: item.chassisNo,
-    status: item.status,
-    owner: item.owner,
-    vehicleType: item.vehicleType,
-    brand: item.brand,
+    ...item,
     createdAt: formatDate(new Date(item?.createdAt), 'MMMM do, yyyy'),
   }));
 
