@@ -34,7 +34,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   const onDelete = async () => {
     setLoading(true);
-    console.log(data?.id);
     const res: any = await deleteVehicle(data?.id);
 
     if (res?.data?.id) {
@@ -68,7 +67,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/vehicle/details`)}
+            onClick={() => router.push(`/dashboard/vehicle/${data?.id}`)}
           >
             <FileText className="mr-2 h-4 w-4" /> Details
           </DropdownMenuItem>

@@ -1,11 +1,11 @@
-import React from 'react';
+import { FC, ReactNode } from 'react';
 
 type ContainerProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
-const Container: React.FC<ContainerProps> = ({ children }) => {
-  return <section className="mx-auto max-w-7xl">{children}</section>;
+const Container: FC<ContainerProps> = ({ children }) => {
+  return <section className="mx-auto max-w-[1444px]">{children}</section>;
 };
 
 export default Container;

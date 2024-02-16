@@ -21,12 +21,17 @@ export type Vehicle = {
   owner?: string;
   vehicleType?: string;
   brand?: string;
-  driverId?: string;
   createdAt?: string;
   updatedAt?: string;
 };
 
 export const columns: ColumnDef<Vehicle>[] = [
+  {
+    accessorKey: 'vehicleId',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Vehicle Id" />
+    ),
+  },
   {
     accessorKey: 'model',
     header: ({ column }) => (
@@ -43,12 +48,6 @@ export const columns: ColumnDef<Vehicle>[] = [
     accessorKey: 'color',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Color" />
-    ),
-  },
-  {
-    accessorKey: 'owner',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Owner" />
     ),
   },
   {

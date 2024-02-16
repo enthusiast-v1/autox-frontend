@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 const RegisterPage = () => {
   return (
-    <div className="max-w-7xl mx-auto flex-col justify-center md:grid lg:grid-cols-2 lg:px-0">
+    <div className="max-w-[1444px] mx-auto flex-col justify-center md:grid lg:grid-cols-2 lg:px-0">
       <div className="h-full flex-col bg-black p-10 text-white lg:flex">
         <div className="flex items-start">
           <Link href={'/'}>

@@ -1,11 +1,7 @@
 import { VehicleClient } from './components/client';
 
 const VehiclePage = () => {
-  return (
-    <div>
-      <VehicleClient />
-    </div>
-  );
+  return <VehicleClient />;
 };
 
 export default VehiclePage;
